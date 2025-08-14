@@ -17,12 +17,12 @@ class Filter extends HTMLElement {
       fetch("/src/data/branches/branch-list.json")
     ]);
     if (!filmsRes.ok || !branchesRes.ok) {
-      throw new Error("Failed to fetch data");
+      throw new Error("Failed to fetch filter data.");
     }
     return {
       films: await filmsRes.json(),
       branches: await branchesRes.json()
-    }
+    };
   }
 
   _getUpcomingDays(count = 6) {
@@ -41,14 +41,16 @@ class Filter extends HTMLElement {
     const select = document.createElement("select");
     select.name = "branch";
     select.innerHTML = `<option value="">Салбар сонгох</option>` +
-      branches.branches.map(branch => `<>option value="${branch.id}">${branch.name} (${branch.location})</option>`).join("");
+      branches.branches.map(b => `<option value="${b.id}">${b.name} (${b.location})</option>`).join("");
 
-    select.addEventListener("change", (e) => {
-      this._branch = e.target.value;
+    select.addEventListener("change", e => {
+      this._state.branch = e.target.value;
       this._dispatchFilterChange();
     });
+
     return select;
   }
+
   _createDaysContainer(days) {
     const container = document.createElement("div");
     container.classList.add("days-container");
@@ -62,11 +64,13 @@ class Filter extends HTMLElement {
       div.addEventListener("click", () => {
         container.querySelectorAll(".day").forEach(d => d.classList.remove("active"));
         div.classList.add("active");
-        this._day_of_week = day.value;
+        this._state.dayOfWeek = day.value;
         this._dispatchFilterChange();
       });
+
       container.appendChild(div);
     });
+
     return container;
   }
 
@@ -83,22 +87,17 @@ class Filter extends HTMLElement {
     input.id = "appt";
     input.name = "appt";
 
-    input.addEventListener("change", (e) => {
-      this._start_time = e.target.value;
+    input.addEventListener("change", e => {
+      this._state.startTime = e.target.value;
       this._dispatchFilterChange();
     });
 
-    wrapper.appendChild(label, input);
+    wrapper.append(label, input);
     return wrapper;
   }
-
   _dispatchFilterChange() {
     this.dispatchEvent(new CustomEvent("filter-changed", {
-      detail: {
-        branch: this._branch,
-        dayOfWeek: this._day_of_week,
-        startTime: this._start_time
-      },
+      detail: { ...this._state },
       bubbles: true,
       composed: true
     }));
@@ -110,10 +109,12 @@ class Filter extends HTMLElement {
       const filterContainer = document.createElement("div");
       filterContainer.classList.add("filter-container");
 
+      // Add elements
       filterContainer.appendChild(this._createBranchSelect(branches));
       filterContainer.appendChild(this._createDaysContainer(this._getUpcomingDays()));
       filterContainer.appendChild(this._createStartTimeInput());
 
+      // Styles
       const style = document.createElement("style");
       style.textContent = `
         .filter-container {
@@ -139,11 +140,13 @@ class Filter extends HTMLElement {
           background-color: orange;
         }
       `;
+
+      // Clear & append
       this.shadowRoot.innerHTML = "";
       this.shadowRoot.append(style, filterContainer);
     } catch (error) {
       console.error(error);
-      this.shadowRoot.innerHTML = "<p>Error loading filter options. Please try again later.</p>";
+      this.shadowRoot.innerHTML = `<p>Error loading filter.</p>`;
     }
   }
 }
