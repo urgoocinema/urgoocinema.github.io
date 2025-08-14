@@ -87,7 +87,7 @@ class Filter extends HTMLElement {
       const branchSelect = document.createElement("select");
       branchSelect.name = "branch";
       branchSelect.id = "branch";
-      branchSelect.innerHTML = `<option value="">Салбар сонгох</option>
+      branchSelect.innerHTML = `<option value="0">Салбар сонгох</option>
         ${branches.branches
           .map(
             (branch) => `

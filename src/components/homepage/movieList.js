@@ -46,7 +46,6 @@ export class MovieList extends HTMLElement {
   }
   onFilterChanged(e) {
     const { branch, dayOfWeek, startTime } = e.detail;
-    console.log("Filter changed:", branch, dayOfWeek, startTime);
     this.container.querySelector(".movie").innerHTML = ``;
 
     this._selectedBranch = branch;

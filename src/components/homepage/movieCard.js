@@ -17,11 +17,13 @@ export class MovieCard extends HTMLElement {
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
 
-    this._isFiltered = false;
-    this._isFilteredByDay = false;
-    this._isFilteredByTime = false;
+    this.timetableContainer = this.container.querySelector(".timetable-container");
+    this.buttonGroup = this.container.querySelector(".button-group");
+    this.showtimeDetails = this.container.querySelector(".showtime-details");
 
-    this._selectedBranch = "";
+    this._isFiltered = false;
+
+    this._selectedBranch = 0;
     this._selectedDayofWeek = "all-times";
     this._selectedTime = "";
 
@@ -116,7 +118,6 @@ export class MovieCard extends HTMLElement {
         parent.insertBefore(newChild, parent.firstChild);
       }
     }
-
     this.container
       .querySelector(".showtime-details")
       .addEventListener("click", (e) => {
@@ -146,32 +147,29 @@ export class MovieCard extends HTMLElement {
   }
   onFilterChanged(e) {
     const { branch, dayOfWeek, startTime } = e.detail;
-    this._selectedBranch = branch;
+    this._selectedBranch = parseInt(branch);
     this._selectedDayofWeek = dayOfWeek;
     this._selectedTime = startTime;
-    this._isFiltered = true;
     console.log(this._selectedBranch, this._selectedDayofWeek, this._selectedTime);
 
-
-    if (this._selectedDayofWeek != "all-times") {
+    if (this._selectedBranch != 0 || this._selectedDayofWeek != "all-times" || this._selectedTime != "") {
+      this._isFiltered = true;
     }
-    if (this._selectedBranch != "" || this._selectedDayofWeek != "all-times" || this._selectedTime != "") {
+    if (this._isFiltered) {
       const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
       detailsEl.innerHTML = '';
       let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
       this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
-      if (this._selectedBranch == "") {
+      if (this._selectedBranch == 0) {
         this.renderShowtimes(day_offset, this._selectedBranch);
       }
       else {
         this.renderShowtimes(day_offset, parseInt(this._selectedBranch) - 1);
       }
-    }
+      if (this._selectedDayofWeek == "all-times") {
+        this.container.querySelector(".button-group").innerHTML = ``;
 
-    if (this._selectedDayofWeek == "all-times") {
-      this.container.querySelector(".button-group").innerHTML = ``;
-
-      this.container.querySelector(".button-group").innerHTML = `<button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
+        this.container.querySelector(".button-group").innerHTML = `<button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
         <button class="time-button" id="day-1">МАРГААШ</button>
         <button class="show-all-times">
           <svg
@@ -187,13 +185,15 @@ export class MovieCard extends HTMLElement {
           </svg>
           БҮХ ЦАГ (<span></span>)
         </button>`;
+        this.renderButtons();
+        this.renderShowtimes(0, parseInt(this._selectedBranch) - 1);
+      }
+    }
+    else {
       this.renderButtons();
       this.renderShowtimes(0, this._selectedBranch);
     }
-
-
   }
-
 
   renderCast() {
     this.container.querySelector(".cast .gray").textContent =
@@ -255,13 +255,13 @@ export class MovieCard extends HTMLElement {
         branch.remove();
       }
     };
-
-    if (v_branch === "") {
+    const branchIndex = parseInt(v_branch);
+    if (branchIndex === 0) {
+      console.log("Rendering all branches");
       this.branches.forEach((branchData, i) => {
         renderBranch(branchData, i);
       });
     } else {
-      const branchIndex = parseInt(v_branch);
       console.log(branchIndex);
       renderBranch(this.branches[branchIndex], branchIndex);
 
