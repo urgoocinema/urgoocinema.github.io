@@ -143,7 +143,7 @@ export class MovieCard extends HTMLElement {
           })
         );
       });
-    document.addEventListener("filter-changed", (e) => this.onFilterChanged(e));
+    window.addEventListener("filter-changed", (e) => this.onFilterChanged(e));
   }
   onFilterChanged(e) {
     const { branch, dayOfWeek, startTime } = e.detail;
