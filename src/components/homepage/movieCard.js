@@ -4,6 +4,7 @@ import { isSameDay } from "/src/components/utils/isSameDay.js";
 import { day_to_number } from "/src/components/utils/day-to-number.js";
 import { Cardtemplate } from '/src/components/templates/movieCard.js'
 const template = document.createElement("template");
+
 template.innerHTML = Cardtemplate;
 
 export class MovieCard extends HTMLElement {

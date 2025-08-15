@@ -24,15 +24,6 @@ export class MovieList extends HTMLElement {
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
 
-    this._isFiltered = false;
-
-    this._selectedBranch = "";
-    this._selectedDayofWeek = "all-times";
-    this._selectedTime = "";
-
-    this._isFilteredbyBranch = false;
-    this._isFilteredbyDay = false;
-    this._isFilteredbyTime = false;
   }
 
   static get observedAttributes() { }
@@ -42,33 +33,8 @@ export class MovieList extends HTMLElement {
   connectedCallback() {
     this.render();
     this.addEventListener("time-selected", (e) => this.onTimeSelected(e));
-    document.addEventListener("filter-changed", (e) => this.onFilterChanged(e));
   }
-  onFilterChanged(e) {
-    const { branch, dayOfWeek, startTime } = e.detail;
-    this.container.querySelector(".movie").innerHTML = ``;
 
-    this._selectedBranch = branch;
-    this._selectedDayofWeek = dayOfWeek;
-    this._selectedTime = startTime;
-
-    if (this._selectedBranch !== "") {
-      this._isFilteredbyBranch = true;
-    } else {
-      this._isFilteredbyBranch = false;
-    }
-    if (this._selectedDayofWeek !== "all-times") {
-      this._isFilteredbyDay = true;
-    } else {
-      this._isFilteredbyDay = false;
-    }
-    if (this._selectedTime !== "") {
-      this._isFilteredbyTime = true;
-    } else {
-      this._isFilteredbyTime = false;
-    }
-    this.render();
-  }
 
   async render() {
     this.container.innerHTML = "";
@@ -122,7 +88,7 @@ export class MovieList extends HTMLElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener("filter-changed", this.onFilterChangedBound);
+    document.removeEventListener("time-selected");
   }
 }
 
