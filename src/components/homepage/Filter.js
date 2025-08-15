@@ -44,7 +44,7 @@ class Filter extends HTMLElement {
       branches.branches.map(b => `<option value="${b.id}">${b.name} (${b.location})</option>`).join("");
 
     select.addEventListener("change", e => {
-      this._state.branch = e.target.value;
+      this._branch = e.target.value;
       this._dispatchFilterChange();
     });
 
@@ -62,9 +62,15 @@ class Filter extends HTMLElement {
       div.textContent = day.label;
 
       div.addEventListener("click", () => {
+        if (div.classList.contains("active")) {
+          div.classList.remove("active");
+          this._day_of_week = "all-times";
+          this._dispatchFilterChange();
+          return;
+        }
         container.querySelectorAll(".day").forEach(d => d.classList.remove("active"));
         div.classList.add("active");
-        this._state.dayOfWeek = day.value;
+        this._day_of_week = day.value;
         this._dispatchFilterChange();
       });
 
@@ -88,7 +94,7 @@ class Filter extends HTMLElement {
     input.name = "appt";
 
     input.addEventListener("change", e => {
-      this._state.startTime = e.target.value;
+      this._start_time = e.target.value;
       this._dispatchFilterChange();
     });
 
@@ -97,7 +103,11 @@ class Filter extends HTMLElement {
   }
   _dispatchFilterChange() {
     this.dispatchEvent(new CustomEvent("filter-changed", {
-      detail: { ...this._state },
+      detail: {
+        _day_of_week: this._day_of_week,
+        _branch: this._branch,
+        _start_time: this._start_time
+      },
       bubbles: true,
       composed: true
     }));
@@ -109,12 +119,10 @@ class Filter extends HTMLElement {
       const filterContainer = document.createElement("div");
       filterContainer.classList.add("filter-container");
 
-      // Add elements
       filterContainer.appendChild(this._createBranchSelect(branches));
       filterContainer.appendChild(this._createDaysContainer(this._getUpcomingDays()));
       filterContainer.appendChild(this._createStartTimeInput());
 
-      // Styles
       const style = document.createElement("style");
       style.textContent = `
         .filter-container {
@@ -141,7 +149,7 @@ class Filter extends HTMLElement {
         }
       `;
 
-      // Clear & append
+
       this.shadowRoot.innerHTML = "";
       this.shadowRoot.append(style, filterContainer);
     } catch (error) {
