@@ -148,7 +148,7 @@ export class MovieCard extends HTMLElement {
   }
   onFilterChanged(e) {
     const { branch, dayOfWeek, startTime } = e.detail;
-    this._selectedBranch = parseInt(branch);
+    this._selectedBranch = branch;
     this._selectedDayofWeek = dayOfWeek;
     this._selectedTime = startTime;
     console.log(this._selectedBranch, this._selectedDayofWeek, this._selectedTime);
@@ -159,7 +159,9 @@ export class MovieCard extends HTMLElement {
     if (this._isFiltered) {
       const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
       detailsEl.innerHTML = '';
+
       let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
+
       this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
       if (this._selectedBranch == 0) {
         this.renderShowtimes(day_offset, this._selectedBranch);
@@ -167,6 +169,7 @@ export class MovieCard extends HTMLElement {
       else {
         this.renderShowtimes(day_offset, parseInt(this._selectedBranch) - 1);
       }
+
       if (this._selectedDayofWeek == "all-times") {
         this.container.querySelector(".button-group").innerHTML = ``;
 

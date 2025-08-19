@@ -104,9 +104,9 @@ class Filter extends HTMLElement {
   _dispatchFilterChange() {
     this.dispatchEvent(new CustomEvent("filter-changed", {
       detail: {
-        _day_of_week: this._day_of_week,
-        _branch: this._branch,
-        _start_time: this._start_time
+        _day_of_week: this._day_of_week.toString(),
+        _branch: this._branch.toString(),
+        _start_time: this._start_time.toString()
       },
       bubbles: true,
       composed: true
