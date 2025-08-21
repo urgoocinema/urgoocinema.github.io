@@ -144,59 +144,59 @@ export class MovieCard extends HTMLElement {
           })
         );
       });
-    window.addEventListener("filter-changed", (e) => this.onFilterChanged(e));
   }
   onFilterChanged(e) {
+    alert("clicked");
     const { branch, dayOfWeek, startTime } = e.detail;
     this._selectedBranch = branch;
     this._selectedDayofWeek = dayOfWeek;
     this._selectedTime = startTime;
     console.log(this._selectedBranch, this._selectedDayofWeek, this._selectedTime);
 
-    // if (this._selectedBranch != 0 || this._selectedDayofWeek != "all-times" || this._selectedTime != "") {
-    //   this._isFiltered = true;
-    // }
-    // if (this._isFiltered) {
-    //   const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
-    //   detailsEl.innerHTML = '';
+    if (this._selectedBranch != 0 || this._selectedDayofWeek != "all-times" || this._selectedTime != "") {
+      this._isFiltered = true;
+    }
+    if (this._isFiltered) {
+      const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
+      detailsEl.innerHTML = '';
 
-    //   let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
+      let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
 
-    //   this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
-    //   if (this._selectedBranch == 0) {
-    //     this.renderShowtimes(day_offset, this._selectedBranch);
-    //   }
-    //   else {
-    //     this.renderShowtimes(day_offset, parseInt(this._selectedBranch) - 1);
-    //   }
+      this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
+      if (this._selectedBranch == 0) {
+        this.renderShowtimes(day_offset, this._selectedBranch);
+      }
+      else {
+        this.renderShowtimes(day_offset, parseInt(this._selectedBranch) - 1);
+      }
 
-    //   if (this._selectedDayofWeek == "all-times") {
-    //     this.container.querySelector(".button-group").innerHTML = ``;
+      if (this._selectedDayofWeek == "all-times") {
+        this.container.querySelector(".button-group").innerHTML = ``;
 
-    //     this.container.querySelector(".button-group").innerHTML = `<button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
-    //     <button class="time-button" id="day-1">МАРГААШ</button>
-    //     <button class="show-all-times">
-    //       <svg
-    //         xmlns="http://www.w3.org/2000/svg"
-    //         height="20px"
-    //         viewBox="0 -960 960 960"
-    //         width="20px"
-    //         fill="currentColor"
-    //       >
-    //         <path
-    //           d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
-    //         />
-    //       </svg>
-    //       БҮХ ЦАГ (<span></span>)
-    //     </button>`;
-    //     this.renderButtons();
-    //     this.renderShowtimes(0, parseInt(this._selectedBranch) - 1);
-    //   }
-    // }
-    // else {
-    //   this.renderButtons();
-    //   this.renderShowtimes(0, this._selectedBranch);
-    // }
+        this.container.querySelector(".button-group").innerHTML = `<button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
+        <button class="time-button" id="day-1">МАРГААШ</button>
+        <button class="show-all-times">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            viewBox="0 -960 960 960"
+            width="20px"
+            fill="currentColor"
+          >
+            <path
+              d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
+            />
+          </svg>
+          БҮХ ЦАГ (<span></span>)
+        </button>`;
+        this.renderButtons();
+        this.renderShowtimes(0, parseInt(this._selectedBranch) - 1);
+      }
+    }
+    else {
+      this.renderButtons();
+      this.renderShowtimes(0, this._selectedBranch);
+    }
   }
 
   renderCast() {
@@ -464,7 +464,6 @@ export class MovieCard extends HTMLElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener("filter-changed");
   }
 }
 
