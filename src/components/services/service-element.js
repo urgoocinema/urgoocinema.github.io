@@ -9,6 +9,28 @@ class Service_element extends HTMLElement {
   }
   connectedCallback() {
     this.render();
+    this._onScroll = this._handleScroll.bind(this);
+    window.addEventListener('scroll', this._onScroll);
+  }
+  disconnectedCallback() {
+    window.removeEventListener('scroll', this._onScroll);
+  }
+  _handleScroll() {
+    const container = this.shadowRoot.querySelector('.service-container');
+    if (!container) return;
+    const rect = this.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+
+    let opacity = 1;
+    if (rect.bottom < 0 || rect.top > windowHeight) {
+      opacity = 0.3;
+    } else if (rect.top < 0) {
+      opacity = Math.max(0.3, 1 + rect.top / rect.height);
+    } else if (rect.bottom > windowHeight) {
+      opacity = Math.max(0.3, (windowHeight - rect.top) / rect.height);
+    }
+    container.style.opacity = opacity;
   }
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "service-id" && oldValue !== newValue) {
@@ -58,7 +80,7 @@ class Service_element extends HTMLElement {
       height: 100%;
       object-fit: cover;
       z-index: 1;
-      opacity: 0.4;
+      // opacity: 0.4;
       transition: transform 0.3s;
       transition: opacity 0.2s ease;
     }

@@ -11,23 +11,24 @@ export class MovieCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
+    this._initialize();
+    this._initialize_element();
 
-    this.container = document.createElement("article");
-    this.container.classList.add("movie");
+  }
 
-    this.shadowRoot.appendChild(this.container);
-    this.container.appendChild(template.content.cloneNode(true));
-
-    this.timetableContainer = this.container.querySelector(".timetable-container");
-    this.buttonGroup = this.container.querySelector(".button-group");
-    this.showtimeDetails = this.container.querySelector(".showtime-details");
-
-    this._isFiltered = false;
-
-    this._selectedBranch = 0;
-    this._selectedDayofWeek = "all-times";
-    this._selectedTime = "";
-
+  static get observedAttributes() {
+    return [
+      "id",
+      "title",
+      "description",
+      "duration",
+      "poster_url",
+      "age_rating",
+      "cc",
+      "imdb_rating",
+    ];
+  }
+  _initialize() {
     this.cast = [];
     this.genres = [];
     this.showtimes = {};
@@ -45,20 +46,66 @@ export class MovieCard extends HTMLElement {
       "Бямба",
     ];
   }
+  _initialize_element() {
+    this.container = document.createElement("article");
+    this.container.classList.add("movie");
 
-  static get observedAttributes() {
-    return [
-      "id",
-      "title",
-      "description",
-      "duration",
-      "poster_url",
-      "age_rating",
-      "cc",
-      "imdb_rating",
-    ];
+    this.shadowRoot.appendChild(this.container);
+    this.container.appendChild(template.content.cloneNode(true));
+
+    this.timetableContainer = this.container.querySelector(".timetable-container");
+    this.buttonGroup = this.container.querySelector(".button-group");
+    this.showtimeDetails = this.container.querySelector(".showtime-details");
   }
-
+  _finishTodaysTime() {
+    if (this.container.querySelector(".timetable-container .branch") === null) {
+      if (
+        this.container.querySelector(".time-button.active") &&
+        this.container.querySelector(".button-group #day-1")
+      ) {
+        this.container
+          .querySelector(".time-button.active")
+          .classList.remove("active");
+        this.container.querySelector(".button-group #day-0").remove();
+        this.container
+          .querySelector(".button-group #day-1")
+          .classList.add("active");
+        this.renderShowtimes(0);
+        const parent = this.container.querySelector(".showtime-details");
+        const newChild = document.createElement("div");
+        newChild.classList.add("notice-no-today");
+        newChild.innerHTML = `<span class="info-icon">ⓘ</span> Өнөөдрийн цаг дууссан. <span class="tomorrow">Маргаашийн цагийг</span> харуулж байна.`;
+        parent.insertBefore(newChild, parent.firstChild);
+      }
+    }
+  }
+  _dispatchButtonEvent() {
+    this.container
+      .querySelector(".showtime-details")
+      .addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-day]");
+        if (!btn) return;
+        const branch = btn.dataset.branch;
+        const hall = btn.dataset.hall;
+        const day = btn.dataset.day;
+        const hour = btn.dataset.hour;
+        this.dispatchEvent(
+          new CustomEvent("time-selected", {
+            detail: {
+              movieTitle: this.getAttribute("title"),
+              movieId: this.getAttribute("id"),
+              moviePoster: this.getAttribute("poster_url"),
+              branch,
+              hall,
+              day,
+              hour,
+            },
+            bubbles: true,
+            composed: true,
+          })
+        );
+      });
+  }
   attributeChangedCallback(attr, oldVal, newVal) {
     if (attr === "title") {
       this.container.querySelector(".title").textContent = newVal;
@@ -97,114 +144,17 @@ export class MovieCard extends HTMLElement {
     this.renderShowtimes(0, this._selectedBranch);
     this.renderButtons();
     this.noTouchScreenHandler();
-
-
-    if (this.container.querySelector(".timetable-container .branch") === null) {
-      if (
-        this.container.querySelector(".time-button.active") &&
-        this.container.querySelector(".button-group #day-1")
-      ) {
-        this.container
-          .querySelector(".time-button.active")
-          .classList.remove("active");
-        this.container.querySelector(".button-group #day-0").remove();
-        this.container
-          .querySelector(".button-group #day-1")
-          .classList.add("active");
-        this.renderShowtimes(0);
-        const parent = this.container.querySelector(".showtime-details");
-        const newChild = document.createElement("div");
-        newChild.classList.add("notice-no-today");
-        newChild.innerHTML = `<span class="info-icon">ⓘ</span> Өнөөдрийн цаг дууссан. <span class="tomorrow">Маргаашийн цагийг</span> харуулж байна.`;
-        parent.insertBefore(newChild, parent.firstChild);
-      }
-    }
-    this.container
-      .querySelector(".showtime-details")
-      .addEventListener("click", (e) => {
-        const btn = e.target.closest("[data-day]");
-        if (!btn) return;
-        const branch = btn.dataset.branch;
-        const hall = btn.dataset.hall;
-        const day = btn.dataset.day;
-        const hour = btn.dataset.hour;
-        this.dispatchEvent(
-          new CustomEvent("time-selected", {
-            detail: {
-              movieTitle: this.getAttribute("title"),
-              movieId: this.getAttribute("id"),
-              moviePoster: this.getAttribute("poster_url"),
-              branch,
-              hall,
-              day,
-              hour,
-            },
-            bubbles: true,
-            composed: true,
-          })
-        );
-      });
+    this._finishTodaysTime();
+    this._dispatchButtonEvent();
   }
-  onFilterChanged(e) {
-    alert("clicked");
-    const { branch, dayOfWeek, startTime } = e.detail;
-    this._selectedBranch = branch;
-    this._selectedDayofWeek = dayOfWeek;
-    this._selectedTime = startTime;
-    console.log(this._selectedBranch, this._selectedDayofWeek, this._selectedTime);
 
-    if (this._selectedBranch != 0 || this._selectedDayofWeek != "all-times" || this._selectedTime != "") {
-      this._isFiltered = true;
-    }
-    if (this._isFiltered) {
-      const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
-      detailsEl.innerHTML = '';
-
-      let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
-
-      this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
-      if (this._selectedBranch == 0) {
-        this.renderShowtimes(day_offset, this._selectedBranch);
-      }
-      else {
-        this.renderShowtimes(day_offset, parseInt(this._selectedBranch) - 1);
-      }
-
-      if (this._selectedDayofWeek == "all-times") {
-        this.container.querySelector(".button-group").innerHTML = ``;
-
-        this.container.querySelector(".button-group").innerHTML = `<button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
-        <button class="time-button" id="day-1">МАРГААШ</button>
-        <button class="show-all-times">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 -960 960 960"
-            width="20px"
-            fill="currentColor"
-          >
-            <path
-              d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
-            />
-          </svg>
-          БҮХ ЦАГ (<span></span>)
-        </button>`;
-        this.renderButtons();
-        this.renderShowtimes(0, parseInt(this._selectedBranch) - 1);
-      }
-    }
-    else {
-      this.renderButtons();
-      this.renderShowtimes(0, this._selectedBranch);
-    }
-  }
 
   renderCast() {
     this.container.querySelector(".cast .gray").textContent =
       this.cast.join(", ");
   }
 
-  renderShowtimes(day, v_branch) {
+  renderShowtimes(day) {
     const today = new Date();
     const currentDay = new Date(today);
     currentDay.setDate(currentDay.getDate() + day);
@@ -259,17 +209,11 @@ export class MovieCard extends HTMLElement {
         branch.remove();
       }
     };
-    const branchIndex = parseInt(v_branch);
-    if (branchIndex === 0) {
-      console.log("Rendering all branches");
-      this.branches.forEach((branchData, i) => {
-        renderBranch(branchData, i);
-      });
-    } else {
-      console.log(branchIndex);
-      renderBranch(this.branches[branchIndex], branchIndex);
 
-    }
+    this.branches.forEach((branchData, i) => {
+      renderBranch(branchData, i);
+    });
+
   }
   renderButtons(activeChangeIndex = -1) {
     this.timeButtons = Array.from(
@@ -355,6 +299,9 @@ export class MovieCard extends HTMLElement {
         this.container.querySelector(".showtime-details").style.height = "100%";
       }
     }
+  }
+  chooseActiveButton() {
+
   }
 
   renderMoreButtons() {
