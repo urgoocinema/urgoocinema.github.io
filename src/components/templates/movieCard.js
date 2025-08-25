@@ -557,3 +557,27 @@ export const Cardtemplate =
     </div>
 </div>
 </div>`;
+
+export const CardtemplateFooter =
+    ` <div class="button-group">
+    <button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
+    <button class="time-button" id="day-1">МАРГААШ</button>
+    <button class="show-all-times">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="20px"
+        viewBox="0 -960 960 960"
+        width="20px"
+        fill="currentColor"
+      >
+        <path
+          d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
+        />
+      </svg>
+      БҮХ ЦАГ (<span></span>)
+    </button>
+  </div>
+  <div class="timetable-container">
+  </div>`;
+export const allTimes =
+    `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"/></svg>БҮХ ЦАГ (<span></span>)`;

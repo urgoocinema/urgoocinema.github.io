@@ -2,7 +2,7 @@ import { durationConverter } from "/src/components/utils/duration-converter.js";
 import { convertToMinutes } from "/src/components/utils/getMinutes.js";
 import { isSameDay } from "/src/components/utils/isSameDay.js";
 import { day_to_number } from "/src/components/utils/day-to-number.js";
-import { Cardtemplate } from '/src/components/templates/movieCard.js'
+import { Cardtemplate, CardtemplateFooter, allTimes } from '/src/components/templates/movieCard.js'
 const template = document.createElement("template");
 
 template.innerHTML = Cardtemplate;
@@ -341,7 +341,7 @@ export class MovieCard extends HTMLElement {
       });
       const showAllBtn = document.createElement("button");
       showAllBtn.classList.add("show-all-times");
-      showAllBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"/></svg>БҮХ ЦАГ (<span></span>)`;
+      showAllBtn.innerHTML = allTimes;
       showLessBtn.remove();
       btnGrp.appendChild(showAllBtn);
       if (this.container.querySelector(".button-group #day-0")) {
@@ -417,23 +417,4 @@ export class MovieCard extends HTMLElement {
 customElements.define("movie-card", MovieCard);
 
 const templateShowtimeContainer = document.createElement("template");
-templateShowtimeContainer.innerHTML = ` <div class="button-group">
-    <button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
-    <button class="time-button" id="day-1">МАРГААШ</button>
-    <button class="show-all-times">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="20px"
-        viewBox="0 -960 960 960"
-        width="20px"
-        fill="currentColor"
-      >
-        <path
-          d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
-        />
-      </svg>
-      БҮХ ЦАГ (<span></span>)
-    </button>
-  </div>
-  <div class="timetable-container">
-  </div>`;
+templateShowtimeContainer.innerHTML = CardtemplateFooter;
