@@ -26,6 +26,8 @@ export class MovieCard extends HTMLElement {
       "age_rating",
       "cc",
       "imdb_rating",
+      "filter-day",
+      "filter-branch"
     ];
   }
   _initialize() {
@@ -45,6 +47,9 @@ export class MovieCard extends HTMLElement {
       "Баасан",
       "Бямба",
     ];
+    // Filter properties
+    this.filterDay = null; // Will hold specific date like "2025-08-28" or day like "monday"
+    this.filterBranch = null; // Will hold branch ID
   }
   _initialize_element() {
     this.container = document.createElement("article");
@@ -136,6 +141,14 @@ export class MovieCard extends HTMLElement {
         }`;
       // this.container.querySelector(".lang .flag-container").innerHTML = `<img src="./pics/mongolia-flag.png" alt="flag of mongolia" height="20px" width="20px">`;
     }
+    if (attr === "filter-day") {
+      this.filterDay = newVal;
+      this.applyFilters();
+    }
+    if (attr === "filter-branch") {
+      this.filterBranch = newVal;
+      this.applyFilters();
+    }
   }
 
   connectedCallback() {
@@ -148,6 +161,39 @@ export class MovieCard extends HTMLElement {
     this._dispatchButtonEvent();
   }
 
+  applyFilters() {
+    // Only apply filters if the component is already connected and initialized
+    if (this.container && this.container.querySelector(".showtime-details")) {
+      // Re-render the showtimes with current filter settings
+      this.renderShowtimes(0, this._selectedBranch);
+    }
+  }
+
+  getFilteredCurrentDay() {
+    if (this.filterDay) {
+      // Check if it's a specific date (YYYY-MM-DD format)
+      if (this.filterDay.includes('-')) {
+        return new Date(this.filterDay);
+      }
+      // Otherwise, it's a day name like "monday", find the next occurrence
+      else {
+        const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+        const targetDayIndex = dayNames.indexOf(this.filterDay.toLowerCase());
+        
+        if (targetDayIndex !== -1) {
+          const today = new Date();
+          const currentDayIndex = today.getDay();
+          const daysUntilTarget = (targetDayIndex - currentDayIndex + 7) % 7;
+          const targetDate = new Date(today);
+          targetDate.setDate(today.getDate() + daysUntilTarget);
+          return targetDate;
+        }
+      }
+    }
+    // Default to today
+    return new Date();
+  }
+
 
   renderCast() {
     this.container.querySelector(".cast .gray").textContent =
@@ -156,8 +202,16 @@ export class MovieCard extends HTMLElement {
 
   renderShowtimes(day) {
     const today = new Date();
-    const currentDay = new Date(today);
-    currentDay.setDate(currentDay.getDate() + day);
+    let currentDay;
+    
+    // Use filtered day if available, otherwise use the day parameter
+    if (this.filterDay) {
+      currentDay = this.getFilteredCurrentDay();
+    } else {
+      currentDay = new Date(today);
+      currentDay.setDate(currentDay.getDate() + day);
+    }
+    
     const currentTime = today.getHours() * 60 + today.getMinutes();
     const currentDayName = currentDay.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
     const todayShowtimes = this.container.querySelector(".showtime-details .timetable-container");
@@ -168,7 +222,7 @@ export class MovieCard extends HTMLElement {
     selectedDateConstructor.classList.add("selected-date");
     selectedDateConstructor.innerHTML = `
       Сонгогдсон<span class="desktop"> өдөр</span>:
-      <span class="mo-day"></span> <span class="garig"></span>
+      <span class="mo-day">${currentDay.getMonth() + 1}/${currentDay.getDate()}</span> <span class="garig">${this.mongolianWeekdays[currentDay.getDay()]}</span>
     `;
     todayShowtimes.appendChild(selectedDateConstructor);
 
@@ -211,7 +265,15 @@ export class MovieCard extends HTMLElement {
     };
 
     this.branches.forEach((branchData, i) => {
-      renderBranch(branchData, i);
+      // If filter-branch is set, only render that specific branch
+      if (this.filterBranch) {
+        if (branchData.id == this.filterBranch) {
+          renderBranch(branchData, i);
+        }
+      } else {
+        // No filter, render all branches
+        renderBranch(branchData, i);
+      }
     });
 
   }

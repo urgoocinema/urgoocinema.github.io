@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Seat Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Test Seat Page Components</h1>
+    
+    <div class="debug">
+        <h3>BookingInfoBanner Test:</h3>
+        <booking-info-banner movie_title="Test Movie" movie_id="1"></booking-info-banner>
+    </div>
+    
+    <div class="debug">
+        <h3>SeatSelector Test:</h3>
+        <seat-selector movie_title="Test Movie" movie_id="1"></seat-selector>
+    </div>
+    
+    <div class="debug">
+        <h3>OrderSteps Test:</h3>
+        <order-steps showtime-id="test_1_1_20250825_1900"></order-steps>
+    </div>
+
+    <script type="module">
+        try {
+            console.log("Starting component imports...");
+            
+            console.log("Importing BookingInfoBanner...");
+            const { BookingInfoBanner } = await import("./src/components/homepage/bookingInfoBanner.js");
+            console.log("BookingInfoBanner imported successfully");
+            
+            console.log("Importing SeatSelector...");
+            const { SeatSelector } = await import("./src/components/moviepage/seatSelector.js");
+            console.log("SeatSelector imported successfully");
+            
+            console.log("Importing OrderSteps...");
+            const { OrderSteps } = await import("./src/components/moviepage/orderSteps.js");
+            console.log("OrderSteps imported successfully");
+            
+            console.log("All components imported successfully!");
+            
+            // Wait a bit then check if elements are defined
+            setTimeout(() => {
+                console.log("Checking custom elements...");
+                console.log("booking-info-banner defined:", !!customElements.get('booking-info-banner'));
+                console.log("seat-selector defined:", !!customElements.get('seat-selector'));
+                console.log("order-steps defined:", !!customElements.get('order-steps'));
+                
+                // Check if elements are rendered
+                const banner = document.querySelector('booking-info-banner');
+                const selector = document.querySelector('seat-selector');
+                const steps = document.querySelector('order-steps');
+                
+                console.log("banner element:", banner);
+                console.log("selector element:", selector);
+                console.log("steps element:", steps);
+                
+                if (banner) console.log("banner shadowRoot:", banner.shadowRoot);
+                if (selector) console.log("selector shadowRoot:", selector.shadowRoot);
+                if (steps) console.log("steps shadowRoot:", steps.shadowRoot);
+            }, 1000);
+            
+        } catch (error) {
+            console.error("Error importing components:", error);
+        }
+    </script>
+</body>
+</html>

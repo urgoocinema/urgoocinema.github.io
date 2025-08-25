@@ -91,7 +91,7 @@ template.innerHTML = `
   <div class="booking-hero-container">
     <div class="poster-box">
       <img
-        src="pics/aminch-portrait.webp"
+        src="../../assets/pics/aminch-portrait.webp"
         alt="Movie Poster"
         class="poster"
         width="200"
@@ -152,15 +152,18 @@ export class BookingInfoBanner extends HTMLElement {
 
   attributeChangedCallback(attr, oldVal, newVal) {
     if (attr === "img_url") {
-      this.shadowRoot.querySelector(".poster-box img").src = newVal;
+      const posterImg = this.shadowRoot.querySelector(".poster-box img");
+      if (posterImg && newVal) {
+        posterImg.src = newVal;
+      }
     } else if (attr === "movie_title") {
       this.shadowRoot.querySelector(".movie-title").textContent = newVal;
     } else if (attr === "branch_id") {
-      this.shadowRoot.querySelector(".movie-branch").textContent = newVal;
+      this.shadowRoot.querySelector(".movie-branch").textContent = `Branch: ${newVal}`;
     } else if (attr === "hall_id") {
-      this.shadowRoot.querySelector(".movie-hall").textContent = newVal;
+      this.shadowRoot.querySelector(".movie-hall").textContent = `Hall: ${newVal}`;
     } else if (attr === "day") {
-    this.shadowRoot.querySelector(".movie-day").textContent = newVal;
+    this.shadowRoot.querySelector(".movie-day").textContent = `Day: ${newVal}`;
     } else if (attr === "hour") {
     if (this.hasAttribute("duration")) {
       const durationInMinutes = parseInt(this.getAttribute("duration"));
@@ -181,7 +184,7 @@ export class BookingInfoBanner extends HTMLElement {
         }
       }
     }
-    this.shadowRoot.querySelector(".movie-hour").textContent = newVal;
+    this.shadowRoot.querySelector(".movie-hour").textContent = `Hour: ${newVal}`;
     }
   }
 

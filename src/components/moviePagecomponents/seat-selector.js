@@ -13,7 +13,24 @@ class Seatselector extends HTMLElement{
     }
     connectedCallback(){
         document.addEventListener('screen-selected', this._handleScreenSelected);
+        
+        // Initialize with URL parameters if no screen-selected event has been received
+        if (!this._selectedScreenInfo) {
+            this._initializeFromURLParams();
+        }
+        
         this.render();
+    }
+    
+    _initializeFromURLParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        this._selectedScreenInfo = {
+            movieName: urlParams.get('movie_title') || 'Unknown Movie',
+            theater: urlParams.get('branch_id') ? `Branch ${urlParams.get('branch_id')}` : 'Unknown Theater',
+            screen: urlParams.get('hall_id') ? `Hall ${urlParams.get('hall_id')}` : 'Unknown Hall',
+            time: `${urlParams.get('day')} ${urlParams.get('hour')}` || 'Unknown Time'
+        };
+        console.log('Initialized seat selector with URL params:', this._selectedScreenInfo);
     }
     disconnectedCallback(){
         document.removeEventListener('screen-selected', this._handleScreenSelected);
@@ -296,3 +313,4 @@ class Seatselector extends HTMLElement{
     }
 }
 customElements.define("seat-selector", Seatselector);
+export { Seatselector as SeatSelector };

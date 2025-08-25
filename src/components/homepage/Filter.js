@@ -4,7 +4,6 @@ class Filter extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this._day_of_week = "all-times";
     this._branch = "";
-    this._start_time = "";
   }
 
   connectedCallback() {
@@ -25,15 +24,19 @@ class Filter extends HTMLElement {
     };
   }
 
-  _getUpcomingDays(count = 6) {
+  _getUpcomingDays(count = 7) {
     const weekDays = ["Ням", "Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба"];
+    const englishDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const today = new Date();
+    
     return Array.from({ length: count }, (_, i) => {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
-      if (i === 0) return { label: "Өнөөдөр", value: "Today" };
-      if (i === 1) return { label: "Маргааш", value: "Tomorrow" };
-      return { label: weekDays[date.getDay()], value: weekDays[date.getDay()] };
+      const dayOfWeek = date.getDay();
+      
+      if (i === 0) return { label: "Өнөөдөр", value: englishDays[dayOfWeek], date: date };
+      if (i === 1) return { label: "Маргааш", value: englishDays[dayOfWeek], date: date };
+      return { label: weekDays[dayOfWeek], value: englishDays[dayOfWeek], date: date };
     });
   }
 
@@ -55,6 +58,21 @@ class Filter extends HTMLElement {
     const container = document.createElement("div");
     container.classList.add("days-container");
 
+    // Add "All Days" option
+    const allDaysDiv = document.createElement("div");
+    allDaysDiv.classList.add("day", "active"); // Start with "All Days" active
+    allDaysDiv.dataset.value = "all-times";
+    allDaysDiv.textContent = "Бүх өдөр";
+    
+    allDaysDiv.addEventListener("click", () => {
+      container.querySelectorAll(".day").forEach(d => d.classList.remove("active"));
+      allDaysDiv.classList.add("active");
+      this._day_of_week = "all-times";
+      this._dispatchFilterChange();
+    });
+    
+    container.appendChild(allDaysDiv);
+
     days.forEach(day => {
       const div = document.createElement("div");
       div.classList.add("day");
@@ -62,12 +80,6 @@ class Filter extends HTMLElement {
       div.textContent = day.label;
 
       div.addEventListener("click", () => {
-        if (div.classList.contains("active")) {
-          div.classList.remove("active");
-          this._day_of_week = "all-times";
-          this._dispatchFilterChange();
-          return;
-        }
         container.querySelectorAll(".day").forEach(d => d.classList.remove("active"));
         div.classList.add("active");
         this._day_of_week = day.value;
@@ -80,33 +92,11 @@ class Filter extends HTMLElement {
     return container;
   }
 
-  _createStartTimeInput() {
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("start-time-container");
-
-    const label = document.createElement("label");
-    label.setAttribute("for", "appt");
-    label.textContent = "Select start time:";
-
-    const input = document.createElement("input");
-    input.type = "time";
-    input.id = "appt";
-    input.name = "appt";
-
-    input.addEventListener("change", e => {
-      this._start_time = e.target.value;
-      this._dispatchFilterChange();
-    });
-
-    wrapper.append(label, input);
-    return wrapper;
-  }
   _dispatchFilterChange() {
     this.dispatchEvent(new CustomEvent("filter-changed", {
       detail: {
-        _day_of_week: this._day_of_week.toString(),
-        _branch: this._branch.toString(),
-        _start_time: this._start_time.toString()
+        dayOfWeek: this._day_of_week,
+        branch: this._branch
       },
       bubbles: true,
       composed: true
@@ -121,31 +111,75 @@ class Filter extends HTMLElement {
 
       filterContainer.appendChild(this._createBranchSelect(branches));
       filterContainer.appendChild(this._createDaysContainer(this._getUpcomingDays()));
-      filterContainer.appendChild(this._createStartTimeInput());
 
       const style = document.createElement("style");
       style.textContent = `
         .filter-container {
           display: flex;
-          justify-content: space-around;
-          width:50%;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          width: 90%;
+          max-width: 1200px;
           gap: 20px;
-          margin: clamp(0.5rem, 1rem, 1.5rem) 10rem;
-          padding: 1rem 0;
+          margin: clamp(0.5rem, 1rem, 1.5rem) auto;
+          padding: 1rem;
           border-top: 1px solid orange;
+          background: rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
         }
+        
         .days-container {
           display: flex;
-          gap: 15px;
+          flex-wrap: wrap;
+          gap: 10px;
         }
+        
         .day {
           color: white;
-          padding: 10px;
-          border-radius: 5px;
+          padding: 8px 16px;
+          border-radius: 20px;
           cursor: pointer;
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255, 165, 0, 0.3);
+          font-size: 0.9rem;
+          white-space: nowrap;
         }
+        
+        .day:hover {
+          background-color: rgba(255, 165, 0, 0.2);
+          border-color: orange;
+        }
+        
         .day.active {
           background-color: orange;
+          color: black;
+          font-weight: bold;
+        }
+        
+        select {
+          padding: 8px 12px;
+          border-radius: 5px;
+          border: 1px solid rgba(255, 165, 0, 0.3);
+          background: rgba(0, 0, 0, 0.5);
+          color: white;
+          font-size: 0.9rem;
+        }
+        
+        select option {
+          background: #1a1a1a;
+          color: white;
+        }
+        
+        @media (max-width: 768px) {
+          .filter-container {
+            flex-direction: column;
+            gap: 15px;
+          }
+          
+          .days-container {
+            justify-content: center;
+          }
         }
       `;
 

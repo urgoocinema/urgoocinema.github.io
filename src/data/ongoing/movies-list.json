@@ -11,7 +11,7 @@
       ],
       "duration": 109,
       "poster_url": "/src/assets/pics/snowwhite-portrait.webp",
-      "widePosterSource": "/src/assets/pics/minecraft.webp",
+      "widePosterSource": "/src/assets/pics/snowwhite.webp",
       "age_rating": "PG",
       "cc": "mongolian",
       "genres": [
@@ -225,7 +225,7 @@
       ],
       "duration": 120,
       "poster_url": "/src/assets/pics/thedaytheearthblewup-portrait.webp",
-      "widePosterSource": "/src/assets/pics/minecraft.webp",
+      "widePosterSource": "/src/assets/pics/thedaytheearthblewup.webp",
       "age_rating": "G",
       "cc": "mongolian",
       "genres": [
@@ -866,7 +866,7 @@
       ],
       "duration": 130,
       "poster_url": "/src/assets/pics/mickey17-portrait.webp",
-      "widePosterSource": "/src/assets/pics/minecraft.webp",
+      "widePosterSource": "/src/assets/pics/mickey17.webp",
       "age_rating": "PG-13",
       "cc": "mongolian",
       "genres": [
@@ -1080,7 +1080,7 @@
       ],
       "duration": 105,
       "poster_url": "/src/assets/pics/novocaine-portrait.webp",
-      "widePosterSource": "/src/assets/pics/minecraft.webp",
+      "widePosterSource": "/src/assets/pics/novo.webp",
       "age_rating": "R",
       "cc": "mongolian",
       "genres": [
@@ -1293,7 +1293,7 @@
       ],
       "duration": 110,
       "poster_url": "/src/assets/pics/indahouse-portrait.webp",
-      "widePosterSource": "/src/assets/pics/minecraft.webp",
+      "widePosterSource": "/src/assets/pics/paddingto.webp",
       "age_rating": "PG-13",
       "cc": "mongolian",
       "genres": [

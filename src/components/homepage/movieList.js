@@ -24,6 +24,16 @@ export class MovieList extends HTMLElement {
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
 
+    // Filter state
+    this.filters = {
+      dayOfWeek: "all-times",
+      branch: ""
+    };
+    this.allMovies = [];
+    this.allBranches = [];
+
+    // Bind the filter change handler to maintain 'this' context
+    this.handleFilterChange = this.onFilterChanged.bind(this);
   }
 
   static get observedAttributes() { }
@@ -33,17 +43,29 @@ export class MovieList extends HTMLElement {
   connectedCallback() {
     this.render();
     this.addEventListener("time-selected", (e) => this.onTimeSelected(e));
+    
+    // Listen for filter changes from the filter component
+    document.addEventListener("filter-changed", this.handleFilterChange);
   }
 
 
   async render() {
     this.container.innerHTML = "";
     this.container.appendChild(template.content.cloneNode(true));
-    const movieData = await fetchMovies();
-    const branchData = await fetchBranches();
+    
+    if (this.allMovies.length === 0) {
+      const movieData = await fetchMovies();
+      const branchData = await fetchBranches();
+      this.allMovies = movieData.movies;
+      this.allBranches = branchData.branches;
+    }
 
-    for (let i = 0; i < movieData.movies.length; i++) {
-      const movie = movieData.movies[i];
+    this.renderMovies(this.allMovies);
+  }
+
+  renderMovies(movies) {
+    for (let i = 0; i < movies.length; i++) {
+      const movie = movies[i];
       const movieCard = document.createElement("movie-card");
       movieCard.setAttribute("id", movie.id);
       movieCard.setAttribute("title", movie.title);
@@ -55,6 +77,14 @@ export class MovieList extends HTMLElement {
       movieCard.setAttribute("cc", movie.cc);
       movieCard.setAttribute("imdb_rating", movie.imdb_rating);
 
+      // Apply filters as attributes
+      if (this.filters.dayOfWeek && this.filters.dayOfWeek !== "all-times") {
+        movieCard.setAttribute("filter-day", this.filters.dayOfWeek);
+      }
+      if (this.filters.branch && this.filters.branch !== "") {
+        movieCard.setAttribute("filter-branch", this.filters.branch);
+      }
+
       movieCard.cast = movie.cast;
       movieCard.genres = movie.genres;
       movieCard.showtimes = movie.showtimes;
@@ -62,12 +92,33 @@ export class MovieList extends HTMLElement {
       movieCard.startDate = new Date(movie.start_date);
       movieCard.endDate = new Date(movie.end_date);
 
-      for (let i = 0; i < branchData.branches.length; i++) {
-        const branch = branchData.branches[i];
+      for (let j = 0; j < this.allBranches.length; j++) {
+        const branch = this.allBranches[j];
         movieCard.branches.push(branch);
       }
       this.container.appendChild(movieCard);
     }
+  }
+
+  onFilterChanged(e) {
+    console.log('Filter changed:', e.detail); // Debug log
+    this.filters = { ...this.filters, ...e.detail };
+    
+    // Update all existing movie cards with new filter attributes
+    const movieCards = this.container.querySelectorAll("movie-card");
+    movieCards.forEach(card => {
+      // Remove existing filter attributes
+      card.removeAttribute("filter-day");
+      card.removeAttribute("filter-branch");
+      
+      // Apply new filters as attributes
+      if (this.filters.dayOfWeek && this.filters.dayOfWeek !== "all-times") {
+        card.setAttribute("filter-day", this.filters.dayOfWeek);
+      }
+      if (this.filters.branch && this.filters.branch !== "") {
+        card.setAttribute("filter-branch", this.filters.branch);
+      }
+    });
   }
 
   onTimeSelected(e) {
@@ -84,11 +135,12 @@ export class MovieList extends HTMLElement {
       hour: hour,
     });
 
-    window.location.href = `seat-page.html?${queryParams.toString()}`;
+    window.location.href = `src/pages/movie-page/seat-page.html?${queryParams.toString()}`;
   }
 
   disconnectedCallback() {
     document.removeEventListener("time-selected");
+    document.removeEventListener("filter-changed", this.handleFilterChange);
   }
 }
 
