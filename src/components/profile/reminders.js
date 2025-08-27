@@ -12,11 +12,11 @@ class Reminders extends HTMLElement {
   }
   async render() {
     try {
-      const response = await fetch("../data/user/user-info.json");
+      const response = await fetch("/src/data/user/user-info.json");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-        this.shadowRoot.innerHTML = `
+      this.shadowRoot.innerHTML = `
           <style>
           .upcomingMovieContainer{
             overflow-y: scroll;

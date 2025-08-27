@@ -32,7 +32,7 @@ class AccountOverview extends HTMLElement {
 
     this.shadowRoot.innerHTML = `<p>Loading user details for ID: ${userID}...</p>`;
     try {
-      const response = await fetch("../data/user/user-info.json");
+      const response = await fetch("/src/data/user/user-info.json");
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -92,22 +92,22 @@ class AccountOverview extends HTMLElement {
                         <div class="detail-wrapper>
                           <div class="detailElement">
                             <div class="gray">First Name</div>
-                            <div class="black">${userData.firstName}</div>
+                            <div class="first_name black">${userData.firstName}</div>
                           </div>
                           <div class="detailElement">
                             <div class="gray">Last Name</div>
-                            <div class="black">${userData.lastName}</div>
+                            <div class="last_name black">${userData.lastName}</div>
                           </div>
                           <div class="detailElement">
                             <div class="gray">Mobile</div>
-                            <div class="black">${userData.mobile}</div>
+                            <div class="mobile_number black">${userData.mobile}</div>
                           </div>
                           <div class="detailElement">
                             <div class="gray">E-mail</div>
-                            <div class="black">${userData.email}</div>
+                            <div class="e_mail black">${userData.email}</div>
                           </div>
                         </div>
-                    <button>Edit</button>
+                    <button onClick="toggleEdit()">Edit</button>
                 </div> 
             </div>
                 `;
@@ -115,15 +115,20 @@ class AccountOverview extends HTMLElement {
         this.shadowRoot.innerHTML = `<p>User with ID ${userID} not found in the data.</p>`;
       }
       const editButton = this.shadowRoot.querySelector('button');
-      if(editButton){
-        editButton.addEventListener('click', ()=>{
-          const componentWrapper = document.querySelector('.componentWrapper');
-          if(componentWrapper){
-            componentWrapper.innerHTML='';
+      if (editButton) {
+        editButton.addEventListener('click', () => {
+          const firstNameDiv = this.shadowRoot.querySelector('.first_name');
+          const lastNameDiv = this.shadowRoot.querySelector('.last_name');
+          const mobileDiv = this.shadowRoot.querySelector('.mobile_number');
+          const emailDiv = this.shadowRoot.querySelector('.e_mail');
 
-            const remindersComponent = document.createElement('personal-details');
-            componentWrapper.appendChild(remindersComponent);
-          }
+          firstNameDiv.innerHTML = `<input type="text" value="${firstNameDiv.textContent}" />`;
+          lastNameDiv.innerHTML = `<input type="text" value="${lastNameDiv.textContent}" />`;
+          mobileDiv.innerHTML = `<input type="text" value="${mobileDiv.textContent}" />`;
+          emailDiv.innerHTML = `<input type="text" value="${emailDiv.textContent}" />`;
+
+          editButton.textContent = 'Save';
+
         })
       }
     } catch (error) {
@@ -133,6 +138,9 @@ class AccountOverview extends HTMLElement {
       );
       this.shadowRoot.innerHTML = `<p>Error loading user data. ${error.message}</p>`;
     }
+  }
+  toggleEdit() {
+    alert('edit button clicked');
   }
 }
 customElements.define("account-overview", AccountOverview);
