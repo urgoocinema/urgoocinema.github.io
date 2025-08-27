@@ -18,21 +18,10 @@
 </head>
 
 <body>
-    <custom-header page-name="profile-overview"></custom-header>
+    <custom-header page-name="profile"></custom-header>
     <main>
 
-        <section class="menu">
-            <h1>Good afternoon User!!</h1>
-            <div class="menuButton active" data-component="AccountOverview">Account Overview</div>
-            <div class="menuButton" data-component="PersonalDetails">Personal Details</div>
-            <div class="menuButton" data-component="Reminders">Reminders</div>
-            <div class="menuButton" data-component="Tickets">My Tickets</div>
-        </section>
-        <section class="container">
-            <div class="componentWrapper">
-                <account-overview></account-overview>
-            </div>
-        </section>
+        <profile-container user-id="1"></profile-container>
     </main>
     <custom-footer></custom-footer>
     <script src="./profile.js"></script>
@@ -43,6 +32,7 @@
     <script src="../../components/profile/reminders.js"></script>
     <script src="../../components/profile/tickets.js"></script>
     <script src="../../components/upcoming/upcoming-movie.js"></script>
+    <script src="../../components/profile/profile.js"></script>
 </body>
 
 </html>

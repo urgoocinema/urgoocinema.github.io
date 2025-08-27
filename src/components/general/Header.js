@@ -28,6 +28,7 @@ class Header extends HTMLElement {
         height: 5em;
         display: flex;
         align-items: center;
+        box-shadow: inset 0 -2px 20px rgba(255, 255, 255, 1);
       }
 
     .logo {
