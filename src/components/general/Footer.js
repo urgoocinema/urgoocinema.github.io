@@ -1,18 +1,18 @@
 class Footer extends HTMLElement {
-    constructor() {
-      super();
-      this.attachShadow({ mode: "open" });
-    }
-    static get observedAttributes() {
-    }
-    connectedCallback() {
-      this.render();
-    }
-    attributeChangedCallback(name, oldValue, newValue) {
-    }
-    async render() {
-      
-          this.shadowRoot.innerHTML = `
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+  }
+  static get observedAttributes() {
+  }
+  connectedCallback() {
+    this.render();
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+  }
+  async render() {
+
+    this.shadowRoot.innerHTML = `
           <style>
             footer {
               background-color: var(--footer-background);
@@ -54,31 +54,29 @@ class Footer extends HTMLElement {
       <section>
         <h2>Main</h2>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Imax</a></li>
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/src/pages/upcoming/upcoming.html">Upcoming</a></li>
           <li><a href="#">Theaters</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Bonus Card</a></li>
+          <li><a href="/src/pages/services/services.html">Services</a></li>
         </ul>
       </section>
       <section>
         <h2>Contacts</h2>
         <ul>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Youtube</a></li>
-          <li><a href="#">Instagram</a></li>
+          <li><a href="https://www.facebook.com/urgoocinema">Facebook</a></li>
+          <li><a href="https://www.youtube.com/@UrgooCinemaUlaanbaatar">Youtube</a></li>
+          <li><a href="https://www.instagram.com/urgoocinemas/">Instagram</a></li>
         </ul>
       </section>
       <section>
         <h2>Help</h2>
         <ul>
-          <li><a href="#">Theaters</a></li>
-          <li><a href="#">Sales</a></li>
+          <li><a href="#">Contact us</a></li>
           <li><a href="#">Terms of services</a></li>
         </ul>
       </section>
     </footer>
                   `;
-        }
   }
+}
 customElements.define("custom-footer", Footer);

@@ -103,7 +103,7 @@ class Header extends HTMLElement {
     <nav class="desktop-nav">
         <ul>
             <li>
-                <a href="#"><img src="/src/assets/pics/logo-urgoo.webp" alt="Urgoo logo" class="logo" width="50"
+                <a href="/index.html"><img src="/src/assets/pics/logo-urgoo.webp" alt="Urgoo logo" class="logo" width="50"
                         height="55" /></a>
             </li>
             <li><a href="/index.html" class="${pageNameAtt === 'index' ? 'active' : ''}">НҮҮР</a></li>
