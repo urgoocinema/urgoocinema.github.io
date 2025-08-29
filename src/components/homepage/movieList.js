@@ -1,4 +1,4 @@
-import { fetchMovies, fetchBranches } from "/src/components/api/fetch.js";
+import { getMovies, getBranches } from '../api/apiService.js';
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -20,9 +20,9 @@ export class MovieList extends HTMLElement {
 
     this.container = document.createElement("div");
     this.container.classList.add("container");
-
-    this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.appendChild(this.container);
+
 
     // Filter state
     this.filters = {
@@ -43,7 +43,7 @@ export class MovieList extends HTMLElement {
   connectedCallback() {
     this.render();
     this.addEventListener("time-selected", (e) => this.onTimeSelected(e));
-    
+
     // Listen for filter changes from the filter component
     document.addEventListener("filter-changed", this.handleFilterChange);
   }
@@ -51,15 +51,14 @@ export class MovieList extends HTMLElement {
 
   async render() {
     this.container.innerHTML = "";
-    this.container.appendChild(template.content.cloneNode(true));
-    
     if (this.allMovies.length === 0) {
-      const movieData = await fetchMovies();
-      const branchData = await fetchBranches();
-      this.allMovies = movieData.movies;
-      this.allBranches = branchData.branches;
+      const movieData = await getMovies();
+      const branchData = await getBranches();
+      console.log('Fetched branch data:', branchData); // Debug log
+      this.allMovies = movieData || [];
+      this.allBranches = branchData || [];
     }
-
+    this.container.appendChild(template.content.cloneNode(true));
     this.renderMovies(this.allMovies);
   }
 
@@ -86,16 +85,8 @@ export class MovieList extends HTMLElement {
       }
 
       movieCard.cast = movie.cast;
-      movieCard.genres = movie.genres;
-      movieCard.showtimes = movie.showtimes;
-      movieCard.allowedPreorderDays = movie.allowed_preorder_days;
-      movieCard.startDate = new Date(movie.start_date);
-      movieCard.endDate = new Date(movie.end_date);
 
-      for (let j = 0; j < this.allBranches.length; j++) {
-        const branch = this.allBranches[j];
-        movieCard.branches.push(branch);
-      }
+
       this.container.appendChild(movieCard);
     }
   }
@@ -103,14 +94,14 @@ export class MovieList extends HTMLElement {
   onFilterChanged(e) {
     console.log('Filter changed:', e.detail); // Debug log
     this.filters = { ...this.filters, ...e.detail };
-    
+
     // Update all existing movie cards with new filter attributes
     const movieCards = this.container.querySelectorAll("movie-card");
     movieCards.forEach(card => {
       // Remove existing filter attributes
       card.removeAttribute("filter-day");
       card.removeAttribute("filter-branch");
-      
+
       // Apply new filters as attributes
       if (this.filters.dayOfWeek && this.filters.dayOfWeek !== "all-times") {
         card.setAttribute("filter-day", this.filters.dayOfWeek);

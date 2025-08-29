@@ -1,3 +1,4 @@
+import { getBranches, getMovies } from "/src/components/api/apiService.js";
 class Filter extends HTMLElement {
   constructor() {
     super();
@@ -11,29 +12,25 @@ class Filter extends HTMLElement {
   }
 
   async _fetchData() {
-    const [filmsRes, branchesRes] = await Promise.all([
-      fetch("/src/data/ongoing/movies-list.json"),
-      fetch("/src/data/branches/branch-list.json")
-    ]);
-    if (!filmsRes.ok || !branchesRes.ok) {
-      throw new Error("Failed to fetch filter data.");
-    }
-    return {
-      films: await filmsRes.json(),
-      branches: await branchesRes.json()
-    };
+    const [films, branches] = await Promise.all(
+      [getMovies(), getBranches()]
+    );
+
+    console.log('Fetched branches:', branches); // Debug log
+    console.log('Fetched films:', films); // Debug log
+    return { films, branches };
   }
 
   _getUpcomingDays(count = 7) {
     const weekDays = ["Ням", "Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба"];
     const englishDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const today = new Date();
-    
+
     return Array.from({ length: count }, (_, i) => {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       const dayOfWeek = date.getDay();
-      
+
       if (i === 0) return { label: "Өнөөдөр", value: englishDays[dayOfWeek], date: date };
       if (i === 1) return { label: "Маргааш", value: englishDays[dayOfWeek], date: date };
       return { label: weekDays[dayOfWeek], value: englishDays[dayOfWeek], date: date };
@@ -43,8 +40,9 @@ class Filter extends HTMLElement {
   _createBranchSelect(branches) {
     const select = document.createElement("select");
     select.name = "branch";
+
     select.innerHTML = `<option value="">Салбар сонгох</option>` +
-      branches.branches.map(b => `<option value="${b.id}">${b.name} (${b.location})</option>`).join("");
+      branches.map(b => `<option value="${b.id}">${b.name} (${b.location})</option>`).join("");
 
     select.addEventListener("change", e => {
       this._branch = e.target.value;
@@ -63,14 +61,14 @@ class Filter extends HTMLElement {
     allDaysDiv.classList.add("day", "active"); // Start with "All Days" active
     allDaysDiv.dataset.value = "all-times";
     allDaysDiv.textContent = "Бүх өдөр";
-    
+
     allDaysDiv.addEventListener("click", () => {
       container.querySelectorAll(".day").forEach(d => d.classList.remove("active"));
       allDaysDiv.classList.add("active");
       this._day_of_week = "all-times";
       this._dispatchFilterChange();
     });
-    
+
     container.appendChild(allDaysDiv);
 
     days.forEach(day => {

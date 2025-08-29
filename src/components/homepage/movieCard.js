@@ -139,7 +139,6 @@ export class MovieCard extends HTMLElement {
     if (attr === "cc") {
       this.container.querySelector(".lang span").textContent = `${newVal === "mongolian" ? "Монгол хэл" : "Англи хэл"
         }`;
-      // this.container.querySelector(".lang .flag-container").innerHTML = `<img src="./pics/mongolia-flag.png" alt="flag of mongolia" height="20px" width="20px">`;
     }
     if (attr === "filter-day") {
       this.filterDay = newVal;
@@ -179,7 +178,7 @@ export class MovieCard extends HTMLElement {
       else {
         const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         const targetDayIndex = dayNames.indexOf(this.filterDay.toLowerCase());
-        
+
         if (targetDayIndex !== -1) {
           const today = new Date();
           const currentDayIndex = today.getDay();
@@ -197,13 +196,13 @@ export class MovieCard extends HTMLElement {
 
   renderCast() {
     this.container.querySelector(".cast .gray").textContent =
-      this.cast.join(", ");
+      (this.cast || []).join();
   }
 
   renderShowtimes(day) {
     const today = new Date();
     let currentDay;
-    
+
     // Use filtered day if available, otherwise use the day parameter
     if (this.filterDay) {
       currentDay = this.getFilteredCurrentDay();
@@ -211,7 +210,7 @@ export class MovieCard extends HTMLElement {
       currentDay = new Date(today);
       currentDay.setDate(currentDay.getDate() + day);
     }
-    
+
     const currentTime = today.getHours() * 60 + today.getMinutes();
     const currentDayName = currentDay.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
     const todayShowtimes = this.container.querySelector(".showtime-details .timetable-container");

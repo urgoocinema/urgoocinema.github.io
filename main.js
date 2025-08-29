@@ -14,12 +14,5 @@ export const renderHomePage = async () => {
     const container = document.getElementById('movie-content-container');
     container.innerHTML = '';
     const filterSection = container.appendChild(document.createElement('film-filter'));
-
-    if (movies) {
-        movies.forEach(movie => {
-            const movieCard = container.appendChild(document.createElement('movie-card'));
-        });
-    } else {
-        container.innerHTML = '<p>Failed to load movies. Please try again later.</p>';
-    }
+    const movieListSection = container.appendChild(document.createElement('movie-list'));
 }
