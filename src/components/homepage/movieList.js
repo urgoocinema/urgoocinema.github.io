@@ -66,6 +66,7 @@ export class MovieList extends HTMLElement {
     for (let i = 0; i < movies.length; i++) {
       const movie = movies[i];
       const showtimes = await getShowtimesForMovie(movie.id);
+      // console.log('Showtimes for movie:', movie.id, ':', showtimes);
       const normalizedShowtimes = normalizeShowtimes(showtimes || []);
       console.log('Normalized showtimes for movie:', movie.id, ':', normalizedShowtimes);
       const movieCard = document.createElement("movie-card");

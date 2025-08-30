@@ -21,7 +21,7 @@ export function normalizeShowtimes(showtimes) {
         if (!grouped[branchKey].schedule[day].includes(timeStr)) {
             grouped[branchKey].schedule[day].push(timeStr);
         }
-        grouped[branchKey].schedule[day].push(timeStr);
+
     }
 
     return grouped;

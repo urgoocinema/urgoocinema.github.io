@@ -30,6 +30,7 @@ export class MovieCard extends HTMLElement {
       "cast"
     ];
   }
+
   _initialize() {
     this.cast = [];
     this.isSettingCast = false;
@@ -48,45 +49,109 @@ export class MovieCard extends HTMLElement {
       "Баасан",
       "Бямба",
     ];
-    // Filter properties
-    this.filterDay = null; // Will hold specific date like "2025-08-28" or day like "monday"
-    this.filterBranch = null; // Will hold branch ID
+    this.filterDay = null;
+    this.filterBranch = null;
   }
+
   _initialize_element() {
     this.container = document.createElement("article");
     this.container.classList.add("movie");
-
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
-
     this.timetableContainer = this.container.querySelector(".timetable-container");
     this.buttonGroup = this.container.querySelector(".button-group");
     this.showtimeDetails = this.container.querySelector(".showtime-details");
   }
 
+  renderShowtimes(day) {
+    console.log('Showtimes:', this.showtimes);
+    console.log('Branches:', this.branches);
+    const today = new Date();
+    let currentDay;
 
-  _finishTodaysTime() {
-    if (this.container.querySelector(".timetable-container .branch") === null) {
-      if (
-        this.container.querySelector(".time-button.active") &&
-        this.container.querySelector(".button-group #day-1")
-      ) {
-        this.container
-          .querySelector(".time-button.active")
-          .classList.remove("active");
-        this.container.querySelector(".button-group #day-0").remove();
-        this.container
-          .querySelector(".button-group #day-1")
-          .classList.add("active");
-        this.renderShowtimes(0);
-        const parent = this.container.querySelector(".showtime-details");
-        const newChild = document.createElement("div");
-        newChild.classList.add("notice-no-today");
-        newChild.innerHTML = `<span class="info-icon">ⓘ</span> Өнөөдрийн цаг дууссан. <span class="tomorrow">Маргаашийн цагийг</span> харуулж байна.`;
-        parent.insertBefore(newChild, parent.firstChild);
-      }
+    if (this.filterDay) {
+      currentDay = this.getFilteredCurrentDay();
+    } else {
+      currentDay = new Date(today);
+      currentDay.setDate(currentDay.getDate() + day);
     }
+
+    const currentTime = today.getHours() * 60 + today.getMinutes();
+    const currentDayName = currentDay.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
+    console.log('Current day:', currentDayName);
+    const todayShowtimes = this.container.querySelector(".showtime-details .timetable-container");
+
+    if (!todayShowtimes) {
+      console.warn('Timetable container not found');
+      return;
+    }
+
+    todayShowtimes.innerHTML = "";
+
+    const selectedDateConstructor = document.createElement("div");
+    selectedDateConstructor.classList.add("selected-date");
+    selectedDateConstructor.innerHTML = `
+            Сонгогдсон<span class="desktop"> өдөр</span>:
+            <span class="mo-day">${currentDay.getMonth() + 1}/${currentDay.getDate()}</span> <span class="garig">${this.mongolianWeekdays[currentDay.getDay()]}</span>
+        `;
+    todayShowtimes.appendChild(selectedDateConstructor);
+
+    const renderBranch = (branchData, branchIndex) => {
+      const branchConstructor = document.createElement("div");
+      branchConstructor.classList.add("branch", `branch-${branchIndex}`);
+      branchConstructor.innerHTML = `<p>${branchData.name} <span class="location">${branchData.location}</span></p><div class="schedule"></div>`;
+      const branch = todayShowtimes.appendChild(branchConstructor);
+
+      const hall = this.showtimes[`branch${branchIndex + 1}`]?.hallId;
+      const showtimes = this.showtimes?.[`branch${branchIndex + 1}`]?.schedule?.[currentDayName];
+
+      let showtimesHtml;
+      if (showtimes) {
+        if (isSameDay(currentDay, today)) {
+          showtimesHtml = showtimes
+            .map(showtime =>
+              /^[0-2][0-9]:[0-5][0-9]$/.test(showtime.time) && convertToMinutes(showtime.time) >= currentTime + 30
+                ? `<a href="#" class="time" data-day="${currentDay.toISOString().slice(0, 10)}" data-hour="${showtime.time}" data-branch="${branchIndex + 1}" data-hall="${hall}" data-showtime-id="${showtime.id}">${showtime.time}</a>`
+                : ''
+            )
+            .join("");
+        } else {
+          showtimesHtml = showtimes
+            .map(showtime =>
+              /^[0-2][0-9]:[0-5][0-9]$/.test(showtime.time)
+                ? `<a href="#" class="time" data-day="${currentDay.toISOString().slice(0, 10)}" data-hour="${showtime.time}" data-branch="${branchIndex + 1}" data-hall="${hall}" data-showtime-id="${showtime.id}">${showtime.time}</a>`
+                : ''
+            )
+            .join("");
+        }
+      } else {
+        showtimesHtml = `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
+      }
+
+      branch.querySelector(".schedule").innerHTML = showtimesHtml;
+
+      if (branch.querySelector(".schedule").innerHTML === "") {
+        branch.remove();
+      }
+    };
+
+    if (this.branches.length === 0) {
+      console.warn('No branches available to render showtimes');
+      todayShowtimes.innerHTML += '<div>No branches available</div>';
+      return;
+    }
+
+    this.branches.forEach((branchData, i) => {
+      if (this.filterBranch) {
+        if (branchData.id == this.filterBranch) {
+          renderBranch(branchData, i);
+        }
+      } else {
+        renderBranch(branchData, i);
+      }
+    });
   }
+
   _dispatchButtonEvent() {
     this.container
       .querySelector(".showtime-details")
@@ -97,6 +162,7 @@ export class MovieCard extends HTMLElement {
         const hall = btn.dataset.hall;
         const day = btn.dataset.day;
         const hour = btn.dataset.hour;
+        const showtimeId = btn.dataset.showtimeId;
         this.dispatchEvent(
           new CustomEvent("time-selected", {
             detail: {
@@ -107,6 +173,7 @@ export class MovieCard extends HTMLElement {
               hall,
               day,
               hour,
+              showtimeId,
             },
             bubbles: true,
             composed: true,
@@ -114,6 +181,7 @@ export class MovieCard extends HTMLElement {
         );
       });
   }
+
   attributeChangedCallback(attr, oldVal, newVal) {
     if (attr === "title") {
       this.container.querySelector(".title").textContent = newVal;
