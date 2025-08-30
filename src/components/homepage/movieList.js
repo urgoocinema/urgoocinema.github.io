@@ -44,8 +44,6 @@ export class MovieList extends HTMLElement {
   connectedCallback() {
     this.render();
     this.addEventListener("time-selected", (e) => this.onTimeSelected(e));
-
-    // Listen for filter changes from the filter component
     document.addEventListener("filter-changed", this.handleFilterChange);
   }
 
@@ -139,7 +137,7 @@ export class MovieList extends HTMLElement {
       hour: hour,
     });
 
-    window.location.href = `src/pages/movie-page/seat-page.html?${queryParams.toString()}`;
+    window.location.href = `src/components/moviepageseat-page.html?${queryParams.toString()}`;
   }
 
   disconnectedCallback() {

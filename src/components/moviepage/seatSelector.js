@@ -1,4 +1,4 @@
-// import { fetchBranches, fetchOccupiedSeats } from "../api/fetch.js";
+import { fetchBranches, fetchOccupiedSeats } from "../api/fetch.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -18,21 +18,21 @@ template.innerHTML = `
       --booking-info-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 
       /* Screen SVG - Dark Mode */
-      --screen-svg-path: url("../../assets/pics/screen-dark/screen.svg");
+      --screen-svg-path: url("../pics/screen-dark/screen.svg");
 
       /* Seat Icon Paths - Dark Mode */
-      --icon-regular-seat: url("../../assets/pics/seat-icons-dark/regular_seat_icon.svg");
-      --icon-saver-seat: url("../../assets/pics/seat-icons-dark/saver_seat_icon.svg");
-      --icon-super-saver-seat: url("../../assets/pics/seat-icons-dark/super_saver_seat_icon.svg");
-      --icon-vip-seat: url("../../assets/pics/seat-icons-dark/vip_seat_icon.svg");
-      --icon-sold-regular-seat: url("../../assets/pics/seat-icons-dark/sold_regular_seat_icon.svg");
-      --icon-sold-saver-seat: url("../../assets/pics/seat-icons-dark/sold_saver_seat_icon.svg");
-      --icon-sold-super-saver-seat: url("../../assets/pics/seat-icons-dark/sold_super_saver_seat_icon.svg");
-      --icon-sold-vip-seat: url("../../assets/pics/seat-icons-dark/sold_vip_seat_icon.svg");
-      --icon-selected-regular-seat: url("../../assets/pics/seat-icons-dark/selected_regular_seat_icon.svg");
-      --icon-selected-saver-seat: url("../../assets/pics/seat-icons-dark/selected_saver_seat_icon.svg");
-      --icon-selected-super-saver-seat: url("../../assets/pics/seat-icons-dark/selected_super_saver_seat_icon.svg");
-      --icon-selected-vip-seat: url("../../assets/pics/seat-icons-dark/selected_vip_seat_icon.svg");
+      --icon-regular-seat: url("../pics/seat-icons-dark/regular_seat_icon.svg");
+      --icon-saver-seat: url("../pics/seat-icons-dark/saver_seat_icon.svg");
+      --icon-super-saver-seat: url("../pics/seat-icons-dark/super_saver_seat_icon.svg");
+      --icon-vip-seat: url("../pics/seat-icons-dark/vip_seat_icon.svg");
+      --icon-sold-regular-seat: url("../pics/seat-icons-dark/sold_regular_seat_icon.svg");
+      --icon-sold-saver-seat: url("../pics/seat-icons-dark/sold_saver_seat_icon.svg");
+      --icon-sold-super-saver-seat: url("../pics/seat-icons-dark/sold_super_saver_seat_icon.svg");
+      --icon-sold-vip-seat: url("../pics/seat-icons-dark/sold_vip_seat_icon.svg");
+      --icon-selected-regular-seat: url("../pics/seat-icons-dark/selected_regular_seat_icon.svg");
+      --icon-selected-saver-seat: url("../pics/seat-icons-dark/selected_saver_seat_icon.svg");
+      --icon-selected-super-saver-seat: url("../pics/seat-icons-dark/selected_super_saver_seat_icon.svg");
+      --icon-selected-vip-seat: url("../pics/seat-icons-dark/selected_vip_seat_icon.svg");
     
       /* Modal Styles - Dark Mode */
       --ss-modal-overlay-bg: rgba(0, 0, 0, 0.7);
@@ -57,21 +57,21 @@ template.innerHTML = `
         --booking-info-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         
         /* Screen SVG - Light Mode */
-        --screen-svg-path: url("../../assets/pics/screen-light/screen.svg");
+        --screen-svg-path: url("../pics/screen-light/screen.svg");
 
         /* Seat Icon Paths - Light Mode */
-        --icon-regular-seat: url("../../assets/pics/seat-icons/regular_seat_icon.svg");
-        --icon-saver-seat: url("../../assets/pics/seat-icons/saver_seat_icon.svg");
-        --icon-super-saver-seat: url("../../assets/pics/seat-icons/super_saver_seat_icon.svg");
-        --icon-vip-seat: url("../../assets/pics/seat-icons/vip_seat_icon.svg");
-        --icon-sold-regular-seat: url("../../assets/pics/seat-icons/sold_regular_seat_icon.svg");
-        --icon-sold-saver-seat: url("../../assets/pics/seat-icons/sold_saver_seat_icon.svg");
-        --icon-sold-super-saver-seat: url("../../assets/pics/seat-icons/sold_super_saver_seat_icon.svg");
-        --icon-sold-vip-seat: url("../../assets/pics/seat-icons/sold_vip_seat_icon.svg");
-        --icon-selected-regular-seat: url("../../assets/pics/seat-icons/selected_regular_seat_icon.svg");
-        --icon-selected-saver-seat: url("../../assets/pics/seat-icons/selected_saver_seat_icon.svg");
-        --icon-selected-super-saver-seat: url("../../assets/pics/seat-icons/selected_super_saver_seat_icon.svg");
-        --icon-selected-vip-seat: url("../../assets/pics/seat-icons/selected_vip_seat_icon.svg");
+        --icon-regular-seat: url("../pics/seat-icons/regular_seat_icon.svg");
+        --icon-saver-seat: url("../pics/seat-icons/saver_seat_icon.svg");
+        --icon-super-saver-seat: url("../pics/seat-icons/super_saver_seat_icon.svg");
+        --icon-vip-seat: url("../pics/seat-icons/vip_seat_icon.svg");
+        --icon-sold-regular-seat: url("../pics/seat-icons/sold_regular_seat_icon.svg");
+        --icon-sold-saver-seat: url("../pics/seat-icons/sold_saver_seat_icon.svg");
+        --icon-sold-super-saver-seat: url("../pics/seat-icons/sold_super_saver_seat_icon.svg");
+        --icon-sold-vip-seat: url("../pics/seat-icons/sold_vip_seat_icon.svg");
+        --icon-selected-regular-seat: url("../pics/seat-icons/selected_regular_seat_icon.svg");
+        --icon-selected-saver-seat: url("../pics/seat-icons/selected_saver_seat_icon.svg");
+        --icon-selected-super-saver-seat: url("../pics/seat-icons/selected_super_saver_seat_icon.svg");
+        --icon-selected-vip-seat: url("../pics/seat-icons/selected_vip_seat_icon.svg");
       
         /* Modal Styles - Light Mode */
         --ss-modal-overlay-bg: rgba(0, 0, 0, 0.5);
@@ -466,8 +466,6 @@ export class SeatSelector extends HTMLElement {
     this.orderSteps = null;
 
     this.isLightMode = null;
-    this.dataInitialized = false;
-    this.hasRendered = false;
 
     this.modal = this.parent.querySelector("#modal");
     this.modalText = this.parent.querySelector(".notice");
@@ -488,7 +486,6 @@ export class SeatSelector extends HTMLElement {
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
-    console.log(`SeatSelector attribute changed: ${attr} = ${newVal}`);
     if (attr === "movie_title") this.movieTitle = newVal;
     if (attr === "movie_id") this.movieId = Number(newVal);
     if (attr === "branch_id") this.branchId = Number(newVal);
@@ -507,23 +504,6 @@ export class SeatSelector extends HTMLElement {
         Number(newVal.split(",")[0]),
         newVal.split(",")[1]
       );
-    }
-    
-    // Check if all required attributes are now set and component is connected
-    if (this.isConnected && this.layoutData && 
-        this.day && this.hour && this.movieId && this.branchId && this.hallId &&
-        !this.dataInitialized) {
-      console.log("SeatSelector: All attributes set, initializing...");
-      this.dataInitialized = true;
-      this.prepareData();
-      // Only render if prepareData was successful and seatLayout is valid
-      if (this.seatLayout && this.seatLayout.layout) {
-        console.log("SeatSelector: Rendering from attributeChangedCallback");
-        this.renderSeats();
-        this.renderPriceLegend();
-      } else {
-        console.log("SeatSelector: Invalid seatLayout in attributeChangedCallback");
-      }
     }
   }
 
@@ -578,44 +558,16 @@ export class SeatSelector extends HTMLElement {
   }
 
   async connectedCallback() {
-    try {
-      console.log("SeatSelector connectedCallback started");
-      await this.helperFetch();
-      console.log("SeatSelector helperFetch completed, layoutData:", this.layoutData);
-      
-      // Only proceed with prepareData if we have the required attributes
-      if (this.day && this.hour && this.movieId && this.branchId && this.hallId) {
-        console.log("SeatSelector: All attributes available, calling prepareData");
-        this.prepareData();
-        // Only render if prepareData was successful and seatLayout is valid
-        if (this.seatLayout && this.seatLayout.layout) {
-          console.log("SeatSelector: Valid seatLayout, rendering components");
-          console.log("SeatSelector: seatLayout structure:", this.seatLayout);
-          console.log("SeatSelector: seatTypes:", this.seatTypes);
-          this.renderSeats();
-          this.renderPriceLegend();
-          this.updatedSelectedSeatsDispatchEvent();
-        } else {
-          console.log("SeatSelector: Invalid seatLayout after prepareData");
-        }
-      } else {
-        // If attributes aren't set yet, we'll call this later in attributeChangedCallback
-        console.log("SeatSelector: Waiting for attributes to be set...", {
-          day: this.day,
-          hour: this.hour,
-          movieId: this.movieId,
-          branchId: this.branchId,
-          hallId: this.hallId
-        });
-      }
+    await this.helperFetch();
+    this.prepareData();
 
-      const lightSchemeMediaQuery = window.matchMedia
-        ? window.matchMedia("(prefers-color-scheme: light)")
-        : null;
+    const lightSchemeMediaQuery = window.matchMedia
+      ? window.matchMedia("(prefers-color-scheme: light)")
+      : null;
 
-      if (lightSchemeMediaQuery) {
-        this.isLightMode = lightSchemeMediaQuery.matches;
-        lightSchemeMediaQuery.addEventListener("change", (e) => {
+    if (lightSchemeMediaQuery) {
+      this.isLightMode = lightSchemeMediaQuery.matches;
+      lightSchemeMediaQuery.addEventListener("change", (e) => {
         this.isLightMode = e.matches;
         this.renderSeats();
       });
@@ -623,13 +575,9 @@ export class SeatSelector extends HTMLElement {
       this.isLightMode = false; // Default to dark mode if media query is not supported
     }
 
-    // Only render if we have valid seatLayout data
-    if (this.seatLayout && this.seatLayout.layout && !this.hasRendered) {
-      this.hasRendered = true;
-      this.renderSeats();
-      this.renderPriceLegend();
-      this.updatedSelectedSeatsDispatchEvent();
-    }
+    this.renderSeats();
+    this.renderPriceLegend();
+    this.updatedSelectedSeatsDispatchEvent();
 
     this.container.addEventListener("click", (e) => {
       if (e.target.classList.contains("seat")) {
@@ -719,9 +667,6 @@ export class SeatSelector extends HTMLElement {
         this.hideModal();
       }
     });
-    } catch (error) {
-      console.error("Error in SeatSelector connectedCallback:", error);
-    }
   }
 
   openModal(count, label) {
@@ -858,12 +803,8 @@ export class SeatSelector extends HTMLElement {
       : templateScreen;
     this.container.appendChild(currentScreenTemplate.content.cloneNode(true));
 
-    // Safety check for seatLayout and name
-    const hallName = this.seatLayout && this.seatLayout.name 
-      ? `ТАНХИМ ${this.hallId} ${this.seatLayout.name.replace(/танхим/i, "")}`
-      : `ТАНХИМ ${this.hallId}`;
-    
-    this.container.querySelector(".hall-name").textContent = hallName;
+    this.container.querySelector(".hall-name").textContent = `ТАНХИМ ${this.hallId
+      } ${this.seatLayout.name.replace(/танхим/i, "")}`;
 
     //seat layout raw data
     for (let i = 0; i < this.seatLayout.layout.rows; i++) {
@@ -994,70 +935,13 @@ export class SeatSelector extends HTMLElement {
   }
 
   async helperFetch() {
-    // Mock data for testing - replace with actual API calls later
-    const layoutData = {
-      branches: [
-        {
-          id: 1,
-          name: "Main Branch",
-          halls: [
-            {
-              id: 1, 
-              name: "Танхим 1",
-              layout: {
-                rows: 8,
-                columns: 10,
-                unavailable_seats: [
-                  { row: 1, column: 1 },
-                  { row: 1, column: 10 },
-                  { row: 8, column: 1 },
-                  { row: 8, column: 10 }
-                ],
-                seatTypes: [
-                  { 
-                    type: "regular", 
-                    price: 15000, 
-                    count: 32,
-                    rows: [[1, 2, 3, 4], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
-                    label: "Энгийн",
-                    caption: "Стандарт суудал"
-                  },
-                  { 
-                    type: "vip", 
-                    price: 25000, 
-                    count: 8,
-                    rows: [[5, 6, 7, 8], [3, 4, 5, 6, 7, 8]],
-                    label: "VIP",
-                    caption: "Тансаг суудал"
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    };
+    const layoutData = await fetchBranches();
     this.layoutData = layoutData.branches;
-    
-    const occupiedData = {
-      OccupiedSeats: {}
-    };
+    const occupiedData = await fetchOccupiedSeats();
     this.occupiedData = occupiedData.OccupiedSeats;
   }
 
   prepareData() {
-    // Safety checks for null values
-    if (!this.day || !this.hour || !this.movieId || !this.branchId || !this.hallId) {
-      console.warn("Missing required attributes for SeatSelector:", {
-        day: this.day,
-        hour: this.hour,
-        movieId: this.movieId,
-        branchId: this.branchId,
-        hallId: this.hallId
-      });
-      return;
-    }
-    
     this.formattedDay = this.day.replace(/-/g, "");
     this.formattedHour = this.hour.replace(":", "");
     this.uniqueId = `${this.movieId}_${this.branchId}_${this.hallId}_${this.formattedDay}_${this.formattedHour}`;

@@ -30,6 +30,61 @@ export class MovieCard extends HTMLElement {
       "cast"
     ];
   }
+  attributeChangedCallback(attr, oldVal, newVal) {
+    if (attr === "title") {
+      this.container.querySelector(".title").textContent = newVal;
+    }
+    if (attr === "description") {
+      this.container.querySelector(".caption").textContent = newVal;
+    }
+    if (attr === "duration") {
+      this.container.querySelector(".duration-text").textContent =
+        durationConverter(newVal);
+    }
+    if (attr === "poster_url") {
+      this.container
+        .querySelectorAll(".poster img")
+        .forEach((img) => (img.src = newVal));
+      this.container
+        .querySelectorAll(".poster img")
+        .forEach((img) => (img.alt = `${newVal}'s poster`));
+    }
+    if (attr === "age_rating") {
+      this.container.querySelector(".rating").textContent = newVal;
+      this.container
+        .querySelector(".title-flex .rating")
+        .classList.add(`${newVal}`);
+    }
+    if (attr === "cc") {
+      this.container.querySelector(".lang span").textContent = `${newVal === "mongolian" ? "Монгол хэл" : "Англи хэл"
+        }`;
+    }
+    if (attr === "filter-day") {
+      this.filterDay = newVal;
+      this.applyFilters();
+    }
+    if (attr === "filter-branch") {
+      this.filterBranch = newVal;
+      this.applyFilters();
+    }
+    if (attr === "cast") {
+      try {
+        this.cast = JSON.parse(newVal) || [];
+      } catch (e) {
+        this.cast = [];
+      }
+      this.renderCast();
+    }
+  }
+  connectedCallback() {
+    this.renderCast();
+    if (!this.hasMovieStartedHandler()) return;
+    this.renderShowtimes(0, this._selectedBranch);
+    this.renderButtons();
+    this.noTouchScreenHandler();
+    this._finishTodaysTime();
+    this._dispatchButtonEvent();
+  }
 
   _initialize() {
     this.cast = [];
@@ -158,6 +213,9 @@ export class MovieCard extends HTMLElement {
       .addEventListener("click", (e) => {
         const btn = e.target.closest("[data-day]");
         if (!btn) return;
+
+        e.preventDefault();
+
         const branch = btn.dataset.branch;
         const hall = btn.dataset.hall;
         const day = btn.dataset.day;
@@ -182,62 +240,9 @@ export class MovieCard extends HTMLElement {
       });
   }
 
-  attributeChangedCallback(attr, oldVal, newVal) {
-    if (attr === "title") {
-      this.container.querySelector(".title").textContent = newVal;
-    }
-    if (attr === "description") {
-      this.container.querySelector(".caption").textContent = newVal;
-    }
-    if (attr === "duration") {
-      this.container.querySelector(".duration-text").textContent =
-        durationConverter(newVal);
-    }
-    if (attr === "poster_url") {
-      this.container
-        .querySelectorAll(".poster img")
-        .forEach((img) => (img.src = newVal));
-      this.container
-        .querySelectorAll(".poster img")
-        .forEach((img) => (img.alt = `${newVal}'s poster`));
-    }
-    if (attr === "age_rating") {
-      this.container.querySelector(".rating").textContent = newVal;
-      this.container
-        .querySelector(".title-flex .rating")
-        .classList.add(`${newVal}`);
-    }
-    if (attr === "cc") {
-      this.container.querySelector(".lang span").textContent = `${newVal === "mongolian" ? "Монгол хэл" : "Англи хэл"
-        }`;
-    }
-    if (attr === "filter-day") {
-      this.filterDay = newVal;
-      this.applyFilters();
-    }
-    if (attr === "filter-branch") {
-      this.filterBranch = newVal;
-      this.applyFilters();
-    }
-    if (attr === "cast") {
-      try {
-        this.cast = JSON.parse(newVal) || [];
-      } catch (e) {
-        this.cast = [];
-      }
-      this.renderCast();
-    }
-  }
 
-  connectedCallback() {
-    this.renderCast();
-    if (!this.hasMovieStartedHandler()) return;
-    this.renderShowtimes(0, this._selectedBranch);
-    this.renderButtons();
-    this.noTouchScreenHandler();
-    this._finishTodaysTime();
-    this._dispatchButtonEvent();
-  }
+
+
 
   applyFilters() {
     // Only apply filters if the component is already connected and initialized
@@ -249,11 +254,9 @@ export class MovieCard extends HTMLElement {
 
   getFilteredCurrentDay() {
     if (this.filterDay) {
-      // Check if it's a specific date (YYYY-MM-DD format)
       if (this.filterDay.includes('-')) {
         return new Date(this.filterDay);
       }
-      // Otherwise, it's a day name like "monday", find the next occurrence
       else {
         const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         const targetDayIndex = dayNames.indexOf(this.filterDay.toLowerCase());
@@ -268,7 +271,7 @@ export class MovieCard extends HTMLElement {
         }
       }
     }
-    // Default to today
+
     return new Date();
   }
 
