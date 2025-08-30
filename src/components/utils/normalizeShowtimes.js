@@ -11,7 +11,6 @@ export function normalizeShowtimes(showtimes) {
             minute: "2-digit",
             hour12: false
         });
-
         if (!grouped[branchKey]) {
             grouped[branchKey] = { hallId, schedule: {} };
         }
@@ -21,8 +20,6 @@ export function normalizeShowtimes(showtimes) {
         if (!grouped[branchKey].schedule[day].includes(timeStr)) {
             grouped[branchKey].schedule[day].push(timeStr);
         }
-
     }
-
     return grouped;
 }
