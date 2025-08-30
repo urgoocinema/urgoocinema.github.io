@@ -43,7 +43,6 @@ const postData = async (endpoint, data) => {
     }
 };
 
-
 export const login = (email, password) => postData('login', { email, password });
 export const register = (userDetails) => postData('register', userDetails);
 export const bookSeat = (bookingDetails) => postData('book', bookingDetails);

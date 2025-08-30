@@ -1,10 +1,7 @@
-
-
 import { renderHomePage, renderUpcomingPage, renderServicePage, renderProfilePage } from './main.js';
 
-// A simple routing function to manage different views
 const router = () => {
-    const hash = window.location.hash.slice(1) || '/'; // Remove '#' and default to '/'
+    const hash = window.location.hash.slice(1) || '/';
 
     switch (hash) {
         case '/':
@@ -29,7 +26,6 @@ const router = () => {
     }
 };
 
-// Listen for hash changes and page load
 window.addEventListener('load', router);
 window.addEventListener('hashchange', router);
 
