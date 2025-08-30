@@ -253,7 +253,7 @@ export class MovieCard extends HTMLElement {
           ? showtimes
             .map(time =>
               /^[0-2][0-9]:[0-5][0-9]$/.test(time) && convertToMinutes(time) >= currentTime + 30
-                ? `<a href="#" class="time" data-day="${currentDay.toISOString().slice(0, 10)}" data-hour="${time}" data-branch="${branchIndex + 1}" data-hall="${hall}">${time}</a>`
+                ? `<a href="#" class="time" data-day="${currentDay.toString().slice(0, 10)}" data-hour="${time}" data-branch="${branchIndex + 1}" data-hall="${hall}">${time}</a>`
                 : ''
             )
             .join("")
@@ -262,7 +262,7 @@ export class MovieCard extends HTMLElement {
         showtimesHtml = showtimes
           ? showtimes
             .map(time =>
-              `<a href="#" class="time" data-day="${currentDay.toISOString().slice(0, 10)}" data-hour="${time}" data-branch="${branchIndex + 1}" data-hall="${hall}">${time}</a>`
+              `<a href="#" class="time" data-day="${currentDay.toString().slice(0, 10)}" data-hour="${time}" data-branch="${branchIndex + 1}" data-hall="${hall}">${time}</a>`
             )
             .join("")
           : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
@@ -437,7 +437,7 @@ export class MovieCard extends HTMLElement {
         <span style="margin: 2rem 0;"
           ><h2 style="margin-bottom: 1rem;">Тасалбар захиалга нээгдэхэд</h2>
           <countdown-live
-            start-date="${this.startDate.toISOString()}"
+            start-date="${this.startDate.toString()}"
           ></countdown-live
         ></span>
       </div>`;

@@ -1,4 +1,5 @@
 import { getMovies, getBranches, getShowtimesForMovie } from '../api/apiService.js';
+import { normalizeShowtimes } from '/src/components/utils/normalizeShowtimes.js';
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -67,8 +68,9 @@ export class MovieList extends HTMLElement {
       const movie = movies[i];
       console.log('Rendering movie:', movie); // Debug log
       const showtimes = await getShowtimesForMovie(movie.id);
-      console.log('Fetched showtimes for movie', movie.id, ':', showtimes); //
-
+      console.log('Fetched showtimes for movie(original: )', movie.id, ':', showtimes); //
+      const normalizedShowtimes = normalizeShowtimes(showtimes || []);
+      console.log('Normalized showtimes for movie:', movie.id, ':', normalizedShowtimes);
       const movieCard = document.createElement("movie-card");
       movieCard.setAttribute("id", movie.id);
       movieCard.setAttribute("title", movie.title);
@@ -95,6 +97,7 @@ export class MovieList extends HTMLElement {
       movieCard.allowedPreorderDays = movie.allowed_preorder_days || 0;
       movieCard.startDate = movie.start_date || "";
       movieCard.endDate = movie.end_date || "";
+      movieCard.showtimes = normalizedShowtimes;
       this.container.appendChild(movieCard);
     }
   }
