@@ -142,7 +142,7 @@ export class MovieList extends HTMLElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener("time-selected");
+    document.removeEventListener("time-selected", this.onTimeSelected);
     document.removeEventListener("filter-changed", this.handleFilterChange);
   }
 }

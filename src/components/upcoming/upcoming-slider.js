@@ -122,4 +122,4 @@ class MovieSlider extends HTMLElement {
     }
   }
 }
-customElements.define("movie-slider", MovieSlider);
+customElements.define("upcoming-movie-slider", MovieSlider);

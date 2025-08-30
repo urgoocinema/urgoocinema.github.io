@@ -3,13 +3,27 @@
 class ProfileContainer extends HTMLElement {
     constructor() {
         super();
+        this.attachShadow({ mode: 'open' });
         this.userId = this.getAttribute('user-id');
+    }
+    static get observedAttributes() {
+        return ['user-id'];
+    }
+    connectedCallback() {
         if (!this.userId) {
             console.error('ProfileContainer requires a user-id attribute.');
+            this.shadowRoot.innerHTML = `<p>User ID is missing.</p>`;
+            return;
         }
-
-        this.attachShadow({ mode: 'open' });
         this.render();
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'user-id' && oldValue !== newValue) {
+            this.userId = newValue;
+            if (this.isConnected) {
+                this.render();
+            }
+        }
     }
 
     async render() {
@@ -40,7 +54,7 @@ class ProfileContainer extends HTMLElement {
                         display: flex;
                         gap: 2rem;
                         padding: 2rem;
-                        width: 100%;
+                        width: 90%;
                         margin: 0 auto;
                     }
                     .menu {

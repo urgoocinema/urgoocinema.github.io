@@ -1,20 +1,27 @@
 
 
-import { renderHomePage } from './main.js';
+import { renderHomePage, renderUpcomingPage, renderServicePage, renderProfilePage } from './main.js';
 
 // A simple routing function to manage different views
 const router = () => {
-    const path = window.location.pathname;
+    const hash = window.location.hash.slice(1) || '/'; // Remove '#' and default to '/'
 
-    // Use a switch statement to call the correct rendering function
-    switch (path) {
+    switch (hash) {
         case '/':
-            // Call the function imported from HomePage.js
             renderHomePage();
             break;
         case '/movie':
             const movieId = new URLSearchParams(window.location.search).get('id');
             renderHomePage(movieId);
+            break;
+        case '/upcoming':
+            renderUpcomingPage();
+            break;
+        case '/services':
+            renderServicePage();
+            break;
+        case '/profile':
+            renderProfilePage();
             break;
         default:
             document.body.innerHTML = '<h1>404 - Page Not Found</h1>';
@@ -22,6 +29,7 @@ const router = () => {
     }
 };
 
-// Listen for page load and navigation events to trigger the router
+// Listen for hash changes and page load
 window.addEventListener('load', router);
-window.addEventListener('popstate', router);
+window.addEventListener('hashchange', router);
+

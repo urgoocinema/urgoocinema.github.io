@@ -16,6 +16,10 @@ class Header extends HTMLElement {
             this.render();
         }
     }
+    // navigateTo = (url) => {
+    //     history.pushState(null, null, url);
+    //     router();
+    // };
     async render() {
         const pageNameAtt = this.getAttribute('page-name') || this._pageName;
         if (!pageNameAtt) {
@@ -104,15 +108,15 @@ class Header extends HTMLElement {
     <nav class="desktop-nav">
         <ul>
             <li>
-                <a href="/index.html"><img src="/src/assets/pics/logo-urgoo.webp" alt="Urgoo logo" class="logo" width="50"
+                <a href="#" onclick = "navigateTo('/')"><img src="/src/assets/pics/logo-urgoo.webp" alt="Urgoo logo" class="logo" width="50"
                         height="55" /></a>
             </li>
-            <li><a href="/index.html" class="${pageNameAtt === 'index' ? 'active' : ''}">НҮҮР</a></li>
-            <li><a href="/src/pages/upcoming/upcoming.html" class="${pageNameAtt === 'upcoming' ? 'active' : ''}">УДАХГҮЙ
+            <li><a href="#/"  class="${pageNameAtt === 'index' ? 'active' : ''}">НҮҮР</a></li>
+            <li><a href="#/upcoming"  class="${pageNameAtt === 'upcoming' ? 'active' : ''}">УДАХГҮЙ
                     ДЭЛГЭЦНЭЭ</a></li>
-            <li><a href="/src/pages/services/services.html"
+            <li><a href="#/services"
                     class="${pageNameAtt === 'services' ? 'active' : ''}">ҮЙЛЧИЛГЭЭНҮҮД</a></li>
-            <li><a href="/src/pages/profile/profile.html" class="${pageNameAtt === 'profile' ? 'active' : ''}">ПРОФАЙЛ</a></li>
+            <li><a href="#/profile" class="${pageNameAtt === 'profile' ? 'active' : ''}">ПРОФАЙЛ</a></li>
         </ul>
     </nav>
 </header>
