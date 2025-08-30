@@ -18,6 +18,9 @@ export function normalizeShowtimes(showtimes) {
         if (!grouped[branchKey].schedule[day]) {
             grouped[branchKey].schedule[day] = [];
         }
+        if (!grouped[branchKey].schedule[day].includes(timeStr)) {
+            grouped[branchKey].schedule[day].push(timeStr);
+        }
         grouped[branchKey].schedule[day].push(timeStr);
     }
 

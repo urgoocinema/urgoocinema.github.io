@@ -206,12 +206,12 @@ export class MovieCard extends HTMLElement {
 
 
   renderCast() {
-    console.log("Rendering cast members: " + this.cast);
     this.container.querySelector(".cast .gray").textContent =
       (this.cast || []).join(" - ");
   }
 
   renderShowtimes(day) {
+    console.log(this.showtimes);
     const today = new Date();
     let currentDay;
 
@@ -225,6 +225,7 @@ export class MovieCard extends HTMLElement {
 
     const currentTime = today.getHours() * 60 + today.getMinutes();
     const currentDayName = currentDay.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
+    console.log(currentDayName);
     const todayShowtimes = this.container.querySelector(".showtime-details .timetable-container");
 
     todayShowtimes.innerHTML = "";
