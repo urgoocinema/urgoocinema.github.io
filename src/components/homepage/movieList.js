@@ -1,4 +1,4 @@
-import { getMovies, getBranches } from '../api/apiService.js';
+import { getMovies, getBranches, getShowtimesForMovie } from '../api/apiService.js';
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -62,9 +62,13 @@ export class MovieList extends HTMLElement {
     this.renderMovies(this.allMovies);
   }
 
-  renderMovies(movies) {
+  async renderMovies(movies) {
     for (let i = 0; i < movies.length; i++) {
       const movie = movies[i];
+      console.log('Rendering movie:', movie); // Debug log
+      const showtimes = await getShowtimesForMovie(movie.id);
+      console.log('Fetched showtimes for movie', movie.id, ':', showtimes); //
+
       const movieCard = document.createElement("movie-card");
       movieCard.setAttribute("id", movie.id);
       movieCard.setAttribute("title", movie.title);
@@ -75,6 +79,8 @@ export class MovieList extends HTMLElement {
       movieCard.setAttribute("age_rating", movie.age_rating);
       movieCard.setAttribute("cc", movie.cc);
       movieCard.setAttribute("imdb_rating", movie.imdb_rating);
+      console.log("Movie cast:", JSON.stringify(movie.cast_names));
+      movieCard.setAttribute("cast", JSON.stringify(movie.castnames || []));
 
       // Apply filters as attributes
       if (this.filters.dayOfWeek && this.filters.dayOfWeek !== "all-times") {
@@ -84,9 +90,11 @@ export class MovieList extends HTMLElement {
         movieCard.setAttribute("filter-branch", this.filters.branch);
       }
 
-      movieCard.cast = movie.cast;
-
-
+      movieCard.cast = movie.cast_names || [];
+      movieCard.genres = movie.genres || [];
+      movieCard.allowedPreorderDays = movie.allowed_preorder_days || 0;
+      movieCard.startDate = movie.start_date || "";
+      movieCard.endDate = movie.end_date || "";
       this.container.appendChild(movieCard);
     }
   }

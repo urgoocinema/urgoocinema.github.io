@@ -13,7 +13,6 @@ export class MovieCard extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this._initialize();
     this._initialize_element();
-
   }
 
   static get observedAttributes() {
@@ -27,11 +26,13 @@ export class MovieCard extends HTMLElement {
       "cc",
       "imdb_rating",
       "filter-day",
-      "filter-branch"
+      "filter-branch",
+      "cast"
     ];
   }
   _initialize() {
     this.cast = [];
+    this.isSettingCast = false;
     this.genres = [];
     this.showtimes = {};
     this.allowedPreorderDays = 3;
@@ -62,6 +63,8 @@ export class MovieCard extends HTMLElement {
     this.buttonGroup = this.container.querySelector(".button-group");
     this.showtimeDetails = this.container.querySelector(".showtime-details");
   }
+
+
   _finishTodaysTime() {
     if (this.container.querySelector(".timetable-container .branch") === null) {
       if (
@@ -148,6 +151,14 @@ export class MovieCard extends HTMLElement {
       this.filterBranch = newVal;
       this.applyFilters();
     }
+    if (attr === "cast") {
+      try {
+        this.cast = JSON.parse(newVal) || [];
+      } catch (e) {
+        this.cast = [];
+      }
+      this.renderCast();
+    }
   }
 
   connectedCallback() {
@@ -195,8 +206,9 @@ export class MovieCard extends HTMLElement {
 
 
   renderCast() {
+    console.log("Rendering cast members: " + this.cast);
     this.container.querySelector(".cast .gray").textContent =
-      (this.cast || []).join();
+      (this.cast || []).join(" - ");
   }
 
   renderShowtimes(day) {

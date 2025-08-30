@@ -14,7 +14,7 @@ const router = () => {
             break;
         case '/movie':
             const movieId = new URLSearchParams(window.location.search).get('id');
-            renderMoviePage(movieId);
+            renderHomePage(movieId);
             break;
         default:
             document.body.innerHTML = '<h1>404 - Page Not Found</h1>';
