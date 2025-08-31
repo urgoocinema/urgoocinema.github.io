@@ -1,4 +1,4 @@
-import { fetchBranches, fetchOccupiedSeats } from "./fetch.js";
+import { fetchBranches, fetchOccupiedSeats } from "../api/fetch.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -37,15 +37,15 @@ template.innerHTML = `
       --brand-button-hover-text-shadow: 0 0 3px var(--button-hover-text-shadow-color);
 
       /* Seat icon paths - Light Mode */
-      --icon-regular: url("./pics/seat-icons/regular_seat_icon.svg");
-      --icon-saver: url("./pics/seat-icons/saver_seat_icon.svg");
-      --icon-super-saver: url("./pics/seat-icons/super_saver_seat_icon.svg");
-      --icon-vip: url("./pics/seat-icons/vip_seat_icon.svg");
-      --icon-selected-regular: url("./pics/seat-icons/selected_regular_seat_icon.svg");
-      --icon-selected-saver: url("./pics/seat-icons/selected_saver_seat_icon.svg");
-      --icon-selected-super-saver: url("./pics/seat-icons/selected_super_saver_seat_icon.svg");
-      --icon-selected-vip: url("./pics/seat-icons/selected_vip_seat_icon.svg");
-      --icon-empty: url("./pics/seat-icons/empty_seat_icon.svg");
+      --icon-regular: url("../../assets/pics/seat-icons/regular_seat_icon.svg");
+      --icon-saver: url("../../assets/pics/seat-icons/saver_seat_icon.svg");
+      --icon-super-saver: url("../../assets/pics/seat-icons/super_saver_seat_icon.svg");
+      --icon-vip: url("../../assets/pics/seat-icons/vip_seat_icon.svg");
+      --icon-selected-regular: url("../../assets/pics/seat-icons/selected_regular_seat_icon.svg");
+      --icon-selected-saver: url("../../assets/pics/seat-icons/selected_saver_seat_icon.svg");
+      --icon-selected-super-saver: url("../../assets/pics/seat-icons/selected_super_saver_seat_icon.svg");
+      --icon-selected-vip: url("../../assets/pics/seat-icons/selected_vip_seat_icon.svg");
+      --icon-empty: url("../../assets/pics/seat-icons/empty_seat_icon.svg");
     }
 
     @media (prefers-color-scheme: dark) {
@@ -1116,9 +1116,9 @@ export class OrderSteps extends HTMLElement {
     }
 
     if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      this.autoTypeImg.src = `./pics/seat-icons/${this.autoType}_seat_icon.svg`;
+      this.autoTypeImg.src = `../../assets/pics/seat-icons/${this.autoType}_seat_icon.svg`;
     } else {
-      this.autoTypeImg.src = `./pics/seat-icons-dark/${this.autoType}_seat_icon.svg`;
+      this.autoTypeImg.src = `../../assets/pics/seat-icons-dark/${this.autoType}_seat_icon.svg`;
     }
 
     const totalTicketsPrice = this.calculateTicketsPrice();

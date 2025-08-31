@@ -21,18 +21,18 @@ template.innerHTML = `
       --screen-svg-path: url("../pics/screen-dark/screen.svg");
 
       /* Seat Icon Paths - Dark Mode */
-      --icon-regular-seat: url("../pics/seat-icons-dark/regular_seat_icon.svg");
-      --icon-saver-seat: url("../pics/seat-icons-dark/saver_seat_icon.svg");
-      --icon-super-saver-seat: url("../pics/seat-icons-dark/super_saver_seat_icon.svg");
-      --icon-vip-seat: url("../pics/seat-icons-dark/vip_seat_icon.svg");
-      --icon-sold-regular-seat: url("../pics/seat-icons-dark/sold_regular_seat_icon.svg");
-      --icon-sold-saver-seat: url("../pics/seat-icons-dark/sold_saver_seat_icon.svg");
-      --icon-sold-super-saver-seat: url("../pics/seat-icons-dark/sold_super_saver_seat_icon.svg");
-      --icon-sold-vip-seat: url("../pics/seat-icons-dark/sold_vip_seat_icon.svg");
-      --icon-selected-regular-seat: url("../pics/seat-icons-dark/selected_regular_seat_icon.svg");
-      --icon-selected-saver-seat: url("../pics/seat-icons-dark/selected_saver_seat_icon.svg");
-      --icon-selected-super-saver-seat: url("../pics/seat-icons-dark/selected_super_saver_seat_icon.svg");
-      --icon-selected-vip-seat: url("../pics/seat-icons-dark/selected_vip_seat_icon.svg");
+      --icon-regular-seat: url("../../assets/pics/seat-icons-dark/regular_seat_icon.svg");
+      --icon-saver-seat: url("../../assets/pics/seat-icons-dark/saver_seat_icon.svg");
+      --icon-super-saver-seat: url("../../assets/pics/seat-icons-dark/super_saver_seat_icon.svg");
+      --icon-vip-seat: url("../../assets/pics/seat-icons-dark/vip_seat_icon.svg");
+      --icon-sold-regular-seat: url("../../assets/pics/seat-icons-dark/sold_regular_seat_icon.svg");
+      --icon-sold-saver-seat: url("../../assets/pics/seat-icons-dark/sold_saver_seat_icon.svg");
+      --icon-sold-super-saver-seat: url("../../assets/pics/seat-icons-dark/sold_super_saver_seat_icon.svg");
+      --icon-sold-vip-seat: url("../../assets/pics/seat-icons-dark/sold_vip_seat_icon.svg");
+      --icon-selected-regular-seat: url("../../assets/pics/seat-icons-dark/selected_regular_seat_icon.svg");
+      --icon-selected-saver-seat: url("../../assets/pics/seat-icons-dark/selected_saver_seat_icon.svg");
+      --icon-selected-super-saver-seat: url("../../assets/pics/seat-icons-dark/selected_super_saver_seat_icon.svg");
+      --icon-selected-vip-seat: url("../../assets/pics/seat-icons-dark/selected_vip_seat_icon.svg");
     
       /* Modal Styles - Dark Mode */
       --ss-modal-overlay-bg: rgba(0, 0, 0, 0.7);
@@ -60,18 +60,18 @@ template.innerHTML = `
         --screen-svg-path: url("../pics/screen-light/screen.svg");
 
         /* Seat Icon Paths - Light Mode */
-        --icon-regular-seat: url("../pics/seat-icons/regular_seat_icon.svg");
-        --icon-saver-seat: url("../pics/seat-icons/saver_seat_icon.svg");
-        --icon-super-saver-seat: url("../pics/seat-icons/super_saver_seat_icon.svg");
-        --icon-vip-seat: url("../pics/seat-icons/vip_seat_icon.svg");
-        --icon-sold-regular-seat: url("../pics/seat-icons/sold_regular_seat_icon.svg");
-        --icon-sold-saver-seat: url("../pics/seat-icons/sold_saver_seat_icon.svg");
-        --icon-sold-super-saver-seat: url("../pics/seat-icons/sold_super_saver_seat_icon.svg");
-        --icon-sold-vip-seat: url("../pics/seat-icons/sold_vip_seat_icon.svg");
-        --icon-selected-regular-seat: url("../pics/seat-icons/selected_regular_seat_icon.svg");
-        --icon-selected-saver-seat: url("../pics/seat-icons/selected_saver_seat_icon.svg");
-        --icon-selected-super-saver-seat: url("../pics/seat-icons/selected_super_saver_seat_icon.svg");
-        --icon-selected-vip-seat: url("../pics/seat-icons/selected_vip_seat_icon.svg");
+        --icon-regular-seat: url("../../assets/pics/seat-icons/regular_seat_icon.svg");
+        --icon-saver-seat: url("../../assets/pics/seat-icons/saver_seat_icon.svg");
+        --icon-super-saver-seat: url("../../assets/pics/seat-icons/super_saver_seat_icon.svg");
+        --icon-vip-seat: url("../../assets/pics/seat-icons/vip_seat_icon.svg");
+        --icon-sold-regular-seat: url("../../assets/pics/seat-icons/sold_regular_seat_icon.svg");
+        --icon-sold-saver-seat: url("../../assets/pics/seat-icons/sold_saver_seat_icon.svg");
+        --icon-sold-super-saver-seat: url("../../assets/pics/seat-icons/sold_super_saver_seat_icon.svg");
+        --icon-sold-vip-seat: url("../../assets/pics/seat-icons/sold_vip_seat_icon.svg");
+        --icon-selected-regular-seat: url("../../assets/pics/seat-icons/selected_regular_seat_icon.svg");
+        --icon-selected-saver-seat: url("../../assets/pics/seat-icons/selected_saver_seat_icon.svg");
+        --icon-selected-super-saver-seat: url("../../assets/pics/seat-icons/selected_super_saver_seat_icon.svg");
+        --icon-selected-vip-seat: url("../../assets/pics/seat-icons/selected_vip_seat_icon.svg");
       
         /* Modal Styles - Light Mode */
         --ss-modal-overlay-bg: rgba(0, 0, 0, 0.5);

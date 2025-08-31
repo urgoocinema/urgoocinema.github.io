@@ -137,7 +137,7 @@ export class MovieList extends HTMLElement {
       hour: hour,
     });
 
-    window.location.href = `src/components/moviepageseat-page.html?${queryParams.toString()}`;
+    window.location.href = `src/components/moviepage/seat-page.html?${queryParams.toString()}`;
   }
 
   disconnectedCallback() {
