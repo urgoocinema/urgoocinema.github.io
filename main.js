@@ -24,6 +24,9 @@ import './src/components/profile/reminders.js';
 import './src/components/profile/tickets.js';
 import './src/components/profile/profile.js';
 
+import './src/components/authentication/authGuard.js';
+import './src/components/login/userAuth.js';
+
 
 export const renderHomePage = async () => {
     const body = document.querySelector('body');
@@ -72,6 +75,12 @@ export const renderServicePage = async () => {
 export const renderProfilePage = async () => {
     const body = document.querySelector('body');
     body.innerHTML = '';
+    body.appendChild(document.createElement('auth-guard'))
+    const userId = window.localStorage.getItem('user_id');
+    if (!userId) {
+        renderLoginPage();
+        return;
+    }
     body.appendChild(document.createElement('custom-header')).setAttribute('page-name', 'profile');
     const main = body.appendChild(document.createElement('main'));
     main.innerHTML = '';
@@ -79,4 +88,8 @@ export const renderProfilePage = async () => {
     profileContainer.setAttribute('user-id', "1");
     main.appendChild(profileContainer);
 }
-
+export const renderLoginPage = async () => {
+    const body = document.querySelector('body');
+    body.innerHTML = '';
+    body.appendChild(document.createElement('user-auth'));
+}
