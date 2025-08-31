@@ -24,7 +24,7 @@ export const getBranchById = (branchId) => fetchData(`branches/${branchId}`);
 
 const postData = async (endpoint, data) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/auth/${endpoint}`, {
+        const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,4 +45,4 @@ const postData = async (endpoint, data) => {
 
 export const login = (email, password) => postData('login', { email, password });
 export const register = (userDetails) => postData('register', userDetails);
-export const bookSeat = (bookingDetails) => postData('book', bookingDetails);
+export const bookSeat = (bookingDetails) => postData('bookings', bookingDetails);

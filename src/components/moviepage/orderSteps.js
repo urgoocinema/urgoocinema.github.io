@@ -1,4 +1,5 @@
 import { fetchBranches, fetchOccupiedSeats } from "../api/fetch.js";
+import { bookSeat } from '../api/apiService.js';
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -1191,11 +1192,12 @@ export class OrderSteps extends HTMLElement {
     return this.calculateTicketsPrice() + this.calculateServiceChargePrice();
   }
 
-  handleConfirmBooking() {
+  async handleConfirmBooking() {
     if (this.selectedSeats.length === 0) {
       alert("Та эхлээд суудлаа сонгоно уу!");
       return;
     }
+    const booking_time = new Date().toISOString();
 
     console.log("Захиалга баталгаажлаа:");
     console.log("Showtime ID:", this.showtimeId);
@@ -1206,6 +1208,18 @@ export class OrderSteps extends HTMLElement {
     console.log("Service Charge:", this.calculateServiceChargePrice());
     console.log("VAT:", this.calculateVatPrice());
     console.log("Total Price:", this.calculateTotalPrice());
+    const bookingData = {
+      showtime_id: this.showtimeId,
+      user_id: 1,
+      seats: this.selectedSeats.map((seat) => ({
+        row: seat.row,
+        column: seat.column
+      })),
+      booking_time: booking_time
+    }
+
+    console.log("Booking Data:", bookingData);
+    await bookSeat(bookingData);
     alert("Захиалга баталгаажлаа! (Дэлгэрэнгүйг console дээр харах)");
   }
 
