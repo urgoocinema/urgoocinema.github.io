@@ -73,14 +73,13 @@ export const renderServicePage = async () => {
 }
 
 export const renderProfilePage = async () => {
-    const body = document.querySelector('body');
-    body.innerHTML = '';
-    body.appendChild(document.createElement('auth-guard'))
-    const userId = window.localStorage.getItem('user_id');
-    if (!userId) {
-        renderLoginPage();
+    const userId = window.localStorage.getItem("user_id");
+    if (!userId || userId === 'null') {
+        window.location.hash = '/login';
         return;
     }
+    const body = document.querySelector('body');
+    body.innerHTML = '';
     body.appendChild(document.createElement('custom-header')).setAttribute('page-name', 'profile');
     const main = body.appendChild(document.createElement('main'));
     main.innerHTML = '';

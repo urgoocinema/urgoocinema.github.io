@@ -1,5 +1,3 @@
-// src/components/profile/profile-container.js
-
 class ProfileContainer extends HTMLElement {
     constructor() {
         super();
@@ -10,9 +8,10 @@ class ProfileContainer extends HTMLElement {
         return ['user-id'];
     }
     connectedCallback() {
-        if (!this.userId) {
-            console.error('ProfileContainer requires a user-id attribute.');
+        if (!this.userId || this.userId === 'null') {
+            console.error('ProfileContainer requires a valid user-id attribute.');
             this.shadowRoot.innerHTML = `<p>User ID is missing.</p>`;
+            window.location.hash = '/login'; // Redirect to login route
             return;
         }
         this.render();
@@ -20,8 +19,10 @@ class ProfileContainer extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'user-id' && oldValue !== newValue) {
             this.userId = newValue;
-            if (this.isConnected) {
+            if (this.isConnected && this.userId && this.userId !== 'null') {
                 this.render();
+            } else {
+                window.location.hash = '/login'; // Redirect to login if user-id becomes invalid
             }
         }
     }
@@ -38,6 +39,7 @@ class ProfileContainer extends HTMLElement {
             if (!userData) {
                 console.error(`User with ID ${this.userId} not found.`);
                 this.shadowRoot.innerHTML = `<p>User not found.</p>`;
+                window.location.hash = '/login';
                 return;
             }
 
@@ -45,7 +47,7 @@ class ProfileContainer extends HTMLElement {
 
             this.shadowRoot.innerHTML = `
                 <style>
-                                        :host {
+                    :host {
                         display: block;
                         font-family: 'Roboto Condensed', sans-serif;
                         color: #333;
@@ -117,14 +119,33 @@ class ProfileContainer extends HTMLElement {
                         display: flex;
                         flex-direction: column;
                     }
+                    .signout {
+                        margin-top: 1rem;
+                        font-size: 1.75rem;
+                        font-weight: 500;
+                        margin-bottom: 2rem;
+                        color: #fff;
+                        padding-bottom: 1rem;
+                        border-radius: 12px;
+                        width: 100%;
+                        background-color: rgba(221, 184, 116, 0.99);
+                        cursor: pointer;
+                        transition: all 0.2s ease-in-out;
+                    }
+                    .signout:hover {
+                        transform: translateX(5px);
+                    }
                 </style>
                 <div class="profile-wrapper">
+                    <div class="buttonSection">
                     <section class="menu">
                         <h1>Good afternoon ${firstName}!!</h1>
                         <button class="menuButton active" data-component="AccountOverview">Account Overview</button>
                         <button class="menuButton" data-component="Reminders">Reminders</button>
                         <button class="menuButton" data-component="Tickets">My Tickets</button>
                     </section>
+                    <button class="signout">Sign out</button>
+                    </div>
                     <section class="container">
                         <div class="componentWrapper"></div>
                     </section>
@@ -136,6 +157,7 @@ class ProfileContainer extends HTMLElement {
         } catch (error) {
             console.error('Error rendering profile container:', error);
             this.shadowRoot.innerHTML = `<p>Error loading user data.</p>`;
+            window.location.hash = '/login';
         }
     }
 
@@ -149,6 +171,12 @@ class ProfileContainer extends HTMLElement {
                 menuButtons.forEach(btn => btn.classList.remove("active"));
                 button.classList.add("active");
             });
+        });
+
+        const signoutButton = this.shadowRoot.querySelector(".signout");
+        signoutButton.addEventListener("click", () => {
+            window.localStorage.removeItem('user_id');
+            window.location.hash = '/';
         });
     }
 

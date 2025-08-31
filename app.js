@@ -1,4 +1,4 @@
-import { renderHomePage, renderUpcomingPage, renderServicePage, renderProfilePage } from './main.js';
+import { renderHomePage, renderUpcomingPage, renderServicePage, renderProfilePage, renderLoginPage } from './main.js';
 
 const router = () => {
     const hash = window.location.hash.slice(1) || '/';
@@ -19,6 +19,9 @@ const router = () => {
             break;
         case '/profile':
             renderProfilePage();
+            break;
+        case '/login':
+            renderLoginPage();
             break;
         default:
             document.body.innerHTML = '<h1>404 - Page Not Found</h1>';

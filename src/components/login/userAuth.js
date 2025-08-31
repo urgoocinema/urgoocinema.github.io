@@ -41,13 +41,16 @@ class UserAuth extends HTMLElement {
     _isValidMobile(mobile) {
         return /^(80|83|85|86|88|89|90|91|93|94|95|96|97|98|99)\d{6}$/.test(mobile);
     }
+    _sanitizeInput(input) {
+        return input.replace(/[;'"\\%--]/g, '').trim().substring(0, 100);
+    }
 
 
     async _handleLogin(e) {
         e.preventDefault();
         this._showMessage('info', 'Logging in...');
-        const email = this.shadowRoot.getElementById('login-email').value.trim();
-        const password = this.shadowRoot.getElementById('login-password').value;
+        const email = this._sanitizeInput(this.shadowRoot.getElementById('login-email').value.trim());
+        const password = this._sanitizeInput(this.shadowRoot.getElementById('login-password').value);
 
         let isValid = true;
         if (!this._isValidEmail(email)) {
@@ -84,11 +87,11 @@ class UserAuth extends HTMLElement {
     async _handleRegister(e) {
         e.preventDefault();
         this._showMessage('info', 'Registering...');
-        const firstName = this.shadowRoot.getElementById('register-firstname').value.trim();
-        const lastName = this.shadowRoot.getElementById('register-lastname').value.trim();
-        const mobile = this.shadowRoot.getElementById('register-mobile').value.trim();
-        const email = this.shadowRoot.getElementById('register-email').value.trim();
-        const password = this.shadowRoot.getElementById('register-password').value;
+        const firstName = this._sanitizeInput(this.shadowRoot.getElementById('register-firstname').value.trim());
+        const lastName = this._sanitizeInput(this.shadowRoot.getElementById('register-lastname').value.trim());
+        const mobile = this._sanitizeInput(this.shadowRoot.getElementById('register-mobile').value.trim());
+        const email = this._sanitizeInput(this.shadowRoot.getElementById('register-email').value.trim());
+        const password = this._sanitizeInput(this.shadowRoot.getElementById('register-password').value);
 
         let isValid = true;
         if (!firstName) { this._showError('register-firstname-error', true); isValid = false; } else { this._showError('register-firstname-error', false); }
