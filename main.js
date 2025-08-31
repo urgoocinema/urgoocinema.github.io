@@ -85,7 +85,7 @@ export const renderProfilePage = async () => {
     const main = body.appendChild(document.createElement('main'));
     main.innerHTML = '';
     const profileContainer = document.createElement('profile-container');
-    profileContainer.setAttribute('user-id', "1");
+    profileContainer.setAttribute('user-id', userId);
     main.appendChild(profileContainer);
 }
 export const renderLoginPage = async () => {

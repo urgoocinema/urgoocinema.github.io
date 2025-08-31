@@ -1,9 +1,9 @@
 import { login, register } from "/src/components/api/apiService.js";
+import { renderProfilePage } from "/main.js"
 
 class UserAuth extends HTMLElement {
     constructor() {
         super();
-        // Attach a shadow DOM to encapsulate the component's styles and markup.
         this.attachShadow({ mode: "open" });
     }
 
@@ -70,9 +70,8 @@ class UserAuth extends HTMLElement {
             const result = await login(email, password);
             if (result) {
                 this._showMessage('success', `Login successful! Welcome, ${result.user.firstName}`);
-                // Store user info and redirect
                 localStorage.setItem('user_id', result.user.id);
-                window.location.href = '/src/pages/profile-page.html';
+                renderProfilePage();
             } else {
                 this._showMessage('error', 'Login failed. Please check your credentials.');
             }
@@ -140,7 +139,7 @@ class UserAuth extends HTMLElement {
         }
         h2 {
           text-align: center;
-          color: #7289da;
+          color: #dba226ff;
           margin-bottom: 1.5rem;
         }
         .message {
@@ -189,7 +188,7 @@ class UserAuth extends HTMLElement {
           padding: 0.75rem;
           border: none;
           border-radius: 4px;
-          background-color: #7289da;
+          background-color: #ffa500;
           color: #fff;
           font-size: 1rem;
           font-weight: bold;
@@ -197,7 +196,7 @@ class UserAuth extends HTMLElement {
           transition: background-color 0.2s;
         }
         button:hover {
-          background-color: #677bc4;
+          background-color: #6e531fff;
         }
         .error {
           color: #f04747;
@@ -211,7 +210,7 @@ class UserAuth extends HTMLElement {
           font-size: 0.9rem;
         }
         .toggle-link a {
-          color: #7289da;
+          color: #ffa500;
           text-decoration: none;
           cursor: pointer;
         }
@@ -279,10 +278,10 @@ class UserAuth extends HTMLElement {
       </div>
     `;
 
-        // Attach event listeners after the DOM has been rendered
         this.shadowRoot.getElementById('login').addEventListener('submit', this._handleLogin.bind(this));
         this.shadowRoot.getElementById('register').addEventListener('submit', this._handleRegister.bind(this));
         this.shadowRoot.getElementById('login-toggle-link').addEventListener('click', () => this._toggleForm('login'));
         this.shadowRoot.getElementById('register-toggle-link').addEventListener('click', () => this._toggleForm('register'));
     }
 }
+customElements.define("user-auth", UserAuth);
