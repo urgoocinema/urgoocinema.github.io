@@ -1,0 +1,76 @@
+:root {
+  --primary-color: #ffa500;
+  --secondary-color: #ffb733;
+  --text-color: white;
+  --bg-color: rgb(22, 22, 22);
+  --text-primary: white;
+
+  --quickbook: #ffa500;
+  --quickbook-element: black;
+
+  --footer-color: #ffa500;
+  --footer-background: rgba(53, 53, 53, 0.24);
+  --footer-text: white;
+  --box-shadow: rgba(255, 255, 255, 0.1);
+
+  --black-text: black;
+  --gray-text: gray;
+  --white-text: white;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(22, 22, 22);
+  color: var(--text-primary);
+  font-family: "Roboto Condensed";
+}
+
+@media (max-width: 32px) {}
+
+@media (min-width: 681px) {
+  .phone-nav {
+    display: none;
+  }
+
+  .desktop-nav {
+    display: block;
+  }
+}
+
+@media (max-width: 680px) and (orientation: portrait) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .phone-nav {
+    display: block;
+  }
+
+  flex-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .button-featured {
+    font-size: clamp(0.6rem, 2vw, 0.8rem);
+  }
+}
+
+@media (max-width: 310px) {
+  .play-icon {
+    display: none !important;
+  }
+}
+
+@media (max-width: 260px) {
+  .section-title {
+    display: none;
+  }
+}
