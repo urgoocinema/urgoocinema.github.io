@@ -24,8 +24,6 @@ export class MovieList extends HTMLElement {
     this.container.appendChild(template.content.cloneNode(true));
     this.shadowRoot.appendChild(this.container);
 
-
-    // Filter state
     this.filters = {
       dayOfWeek: "all-times",
       branch: ""
@@ -33,7 +31,6 @@ export class MovieList extends HTMLElement {
     this.allMovies = [];
     this.allBranches = [];
 
-    // Bind the filter change handler to maintain 'this' context
     this.handleFilterChange = this.onFilterChanged.bind(this);
   }
 
@@ -64,7 +61,7 @@ export class MovieList extends HTMLElement {
     for (let i = 0; i < movies.length; i++) {
       const movie = movies[i];
       const showtimes = await getShowtimesForMovie(movie.id);
-      // console.log('Showtimes for movie:', movie.id, ':', showtimes);
+      console.log('Showtimes for movie:', movie.id, ':', showtimes);
       const normalizedShowtimes = normalizeShowtimes(showtimes || []);
       console.log('Normalized showtimes for movie:', movie.id, ':', normalizedShowtimes);
       const movieCard = document.createElement("movie-card");

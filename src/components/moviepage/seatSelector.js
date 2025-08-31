@@ -944,7 +944,7 @@ export class SeatSelector extends HTMLElement {
   prepareData() {
     this.formattedDay = this.day.replace(/-/g, "");
     this.formattedHour = this.hour.replace(":", "");
-    this.uniqueId = `${this.movieId}_${this.branchId}_${this.hallId}_${this.formattedDay}_${this.formattedHour}`;
+    this.uniqueId = `${this.branchId}_${this.hallId}_${this.movieId}_${this.formattedDay}_${this.formattedHour}`;
 
     const currentBranch = this.layoutData.find(
       (branch) => branch.id === this.branchId

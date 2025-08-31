@@ -79,3 +79,4 @@ export const renderProfilePage = async () => {
     profileContainer.setAttribute('user-id', "1");
     main.appendChild(profileContainer);
 }
+
