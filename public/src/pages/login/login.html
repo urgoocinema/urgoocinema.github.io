@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In</title>
+  <link rel="stylesheet" href="./login.css" />
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/x-icon" href="../pics/favicon-urgoo.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=play_circle" />
+  <link rel="icon" type="image/x-icon" href="" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <a href="#"><img src="../pics/favicon-urgoo.ico" alt="Urgoo logo" class="logo" /></a>
+        </li>
+        <li><a href="../index.html" >НҮҮР</a></li>
+          <li><a href="../upcoming/upcoming.html">УДАХГҮЙ ДЭЛГЭЦНЭЭ</a></li>
+          <li><a href="../services/services.html">ҮЙЛЧИЛГЭЭНҮҮД</a></li>
+          <li><a href="#">БЭЛГИЙН КАРТ</a></li>
+          <li><a href="#"class="active">ПРОФАЙЛ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container" id="container">
+      <div class="form-container sign-up">
+        <form>
+          <h1>Хаяг үүсгэх</h1>
+          <div class="social-icons">
+            <a href="#" class="icon">
+              <i class="fa-brands fa-facebook"style="color: #ffc800;" ></i>
+            </a>
+            <a href="#" class="icon">
+              <i class="fa-brands fa-x-twitter" style="color: #ffc800;"></i>
+            </a>
+          </div>
+          <span>эсвэл и-мэйлээ ашиглан бүртгүүлнэ үү</span>
+          <input type="text" placeholder="Name">
+          <input type="email" placeholder="Email">
+          <input type="password" placeholder="Password">
+          <button>Бүртгүүлэх</button>
+        </form>
+      </div>
+      <div class="form-container sign-in">
+        <form>
+          <h1>Нэвтрэх</h1>
+          <div class="social-icons">
+            <a href="#" class="icon">
+              <i class="fa-brands fa-facebook"style="color: #ffc800;" ></i>
+            </a>
+            <a href="#" class="icon">
+              <i class="fa-brands fa-x-twitter" style="color: #ffc800;"></i>
+            </a>
+          </div>
+          <span>эсвэл бүртгэлтэй и-мэйлээр нэвтэрнэ үү</span>
+          <input type="email" placeholder="Email">
+          <input type="password" placeholder="Password">
+          <a href="#">Нууц үгээ мартсан уу?</a>
+          <button>Нэвтрэх</button>
+        </form>
+      </div>
+      <div class="toggle-container">
+        <div class="toggle">
+          <div class="toggle-panel toggle-left">
+            <h1>Тавтай морил</h1>
+            <p>Манай сайтыг тултал нь ашигламаар байвал бүртгүүлнэ үү</p>
+            <button class="hidden" id="login">Нэвтрэх</button>
+          </div>
+          <div class="toggle-panel toggle-right">
+            <h1>Өдрийн мэнд!</h1>
+            <p>Бүртгүүлмээр байна уу?</p>
+            <button class="hidden" id="register">Бүртгүүлэх</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <section>
+      <h2>Main</h2>
+      <p>Home</p>
+      <p>Imax</p>
+      <p>Theaters</p>
+      <p>Services</p>
+      <p>bonus card</p>
+    </section>
+    <section>
+      <h2>Contacts</h2>
+      <p>Facebook</p>
+      <p>Youtube</p>
+      <p>Instagram</p>
+    </section>
+    <section>
+      <h2>Help</h2>
+      <p>Theaters</p>
+      <p>Sales</p>
+      <p>Terms of services</p>
+    </section>
+  </footer>
+  <script src="./login.js"></script>
+</body>
+
+</html>

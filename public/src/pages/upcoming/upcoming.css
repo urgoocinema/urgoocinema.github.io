@@ -1,0 +1,125 @@
+@import "https://unpkg.com/open-props";
+.arriving {
+    padding:  2rem
+}
+
+.arriving h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: white;
+    font-size: 2rem;
+}
+
+.arriving-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    max-width: 90vh;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.arriving-element {
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow:hidden;
+    transition: transform 0.3s ease;
+    min-height: 50vh;
+    box-shadow: 
+  0 0 20px rgba(255, 255, 255, 0.3),  
+  0 0 40px rgba(255, 255, 255, 0.1),  
+  0 8px 16px rgba(255, 255, 255, 0.08); 
+}
+
+.arriving-element:hover {
+    transform: translateY(-10px);
+    box-shadow: 
+    0 0 40px rgba(255, 255, 255, 0.4),  
+    0 0 80px rgba(255, 255, 255, 0.2), 
+    0 12px 24px rgba(255, 255, 255, 0.1); 
+}
+
+.image-wrapper {
+    width: 35%;
+    /* flex-shrink: 0; */
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+    display: block;
+}
+
+.content-wrapper {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    /* justify-content:center; */
+    width: 60%;
+}
+
+.content-wrapper h3 {
+    color: #f08000;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.description {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.movie-details {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+}
+.section-title {
+    margin: clamp(3.2rem, 5vw, 4rem) 0.5rem;
+    text-align: center;   
+    & span {
+      padding: clamp(1rem, 2vw, 1.5rem) clamp(2rem, 5vw, 5rem);
+  
+      border: 5px rgb(228, 155, 15) dashed;
+      border-radius: 0.5em;
+      backdrop-filter: blur(10px);
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+    }
+  }
+
+.movie-details li {
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.movie-details .label {
+    color: #f08000;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.button-featured {
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .arriving-element {
+        flex-direction: column;
+    }
+    
+    .image-wrapper,
+    .content-wrapper {
+        width: 100%;
+    }
+    
+    .image-wrapper {
+        height: 300px;
+    }
+}

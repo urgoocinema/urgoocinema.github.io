@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Киноны тасалбарыг онлайнаар хялбархан захиалаарай. Өргөө кино театрт үзвэрийн цагаа сонгож, өөрт ойр салбартаа шууд суудлаа захиалаарай."
+    />
+    <title>URGOO Cinema</title>
+    <link rel="icon" type="image/x-icon" href="pics/favicon-urgoo.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Manrope:wght@200..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Manrope:wght@200..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #161616;
+        font-family: "Roboto Condensed", sans-serif;
+        color: #ffa500;
+      }
+      .main-container {
+        display: flex;
+        justify-content: center;
+        min-width: 335px;
+      }
+      seat-selector {
+        width: 65%;
+        min-width: 335px;
+      }
+      order-steps {
+        width: 35%;
+      }
+      
+      @media (max-width: 768px) {
+        .main-container {
+          flex-direction: column; 
+          align-items: center;
+        }
+        seat-selector {
+          width: 100%;
+        }
+        order-steps {
+          width: 100%; 
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="main-container">
+      <seat-selector></seat-selector>
+      <order-steps></order-steps>
+    </main>
+    <script type="module">
+      import { SeatSelector } from "./components/seatSelector.js";
+      import { OrderSteps } from "./components/orderSteps.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const seatSelectorElement = document.querySelector("seat-selector");
+        const orderStepsElement = document.querySelector("order-steps");
+        const queryParams = new URLSearchParams(window.location.search);
+
+        const movieTitle = queryParams.get("movie_title");
+        const movieId = queryParams.get("movie_id");
+        const branchId = queryParams.get("branch_id");
+        const hallId = queryParams.get("hall_id");
+        const day = queryParams.get("day");
+        const hour = queryParams.get("hour");
+
+        if (seatSelectorElement) {
+          if (movieTitle)
+            seatSelectorElement.setAttribute("movie_title", movieTitle);
+          if (movieId) seatSelectorElement.setAttribute("movie_id", movieId);
+          if (branchId) seatSelectorElement.setAttribute("branch_id", branchId);
+          if (hallId) seatSelectorElement.setAttribute("hall_id", hallId);
+          if (day) seatSelectorElement.setAttribute("day", day);
+          if (hour) seatSelectorElement.setAttribute("hour", hour);
+          seatSelectorElement.setAttribute("allowed-seats", "1");
+        } else {
+          console.error("seat-selector элемент олдсонгүй!");
+        }
+
+      if (orderStepsElement && movieId && branchId && hallId && day && hour) {
+        const formattedDay = day.replace(/-/g, "");
+        const formattedHour = hour.replace(":", "");
+        const showtimeId = `${movieId}_${branchId}_${hallId}_${formattedDay}_${formattedHour}`;
+        orderStepsElement.setAttribute("showtime-id", showtimeId);
+      }
+      });
+    </script>
+  </body>
+</html>

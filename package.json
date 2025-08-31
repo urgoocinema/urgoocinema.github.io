@@ -1,0 +1,13 @@
+{
+  "name": "urgoo-cinema-fullstack",
+  "version": "1.0.0",
+  "description": "UrgOO Cinema - Full Stack Application with Frontend and Backend",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "install-backend": "cd backend && npm install",
+    "dev": "cd backend && npm run dev"
+  },
+  "keywords": ["cinema", "booking", "frontend", "backend", "express"],
+  "author": "UrgOO Cinema Team",
+  "license": "ISC"
+}

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Киноны тасалбарыг онлайнаар хялбархан захиалаарай. Өргөө кино театрт үзвэрийн цагаа сонгож, өөрт ойр салбартаа шууд суудлаа захиалаарай."
+    />
+    <title>URGOO Cinema</title>
+    <link rel="icon" type="image/x-icon" href="pics/favicon-urgoo.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Manrope:wght@200..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Manrope:wght@200..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/regular_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/selected_regular_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/selected_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/selected_super_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/selected_vip_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/sold_regular_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/sold_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/sold_super_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/sold_vip_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/super_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons/vip_seat_icon.svg"
+      type="image/svg+xml"
+    />
+
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/regular_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/selected_regular_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/selected_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/selected_super_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/selected_vip_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/sold_regular_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/sold_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/sold_super_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/sold_vip_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/super_saver_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="pics/seat-icons-dark/vip_seat_icon.svg"
+      type="image/svg+xml"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #f8f8f8;
+        font-family: "Roboto Condensed", sans-serif;
+        color: #ffa500;
+      }
+      .main-container {
+        display: flex;
+        justify-content: center;
+        min-width: 335px;
+        min-height: 100vh
+      }
+      seat-selector {
+        width: 66%;
+        min-width: 335px;
+        background-color: black;
+        box-shadow: 0 0 20px rgb(228, 155, 15), 0 0 40px rgba(255, 255, 255, 0.1),
+        0 8px 16px rgba(255, 255, 255, 0.08);
+      }
+      order-steps {
+        width: 34%;
+        border: 3px rgb(228, 155, 15) solid;
+        border-left: 5px rgb(228, 155, 15) dashed;
+        box-shadow: 0 0 20px rgb(228, 155, 15),
+          0 0 40px rgba(255, 255, 255, 0.1),
+          0 8px 16px rgba(255, 255, 255, 0.08);
+      }
+      footer {
+        background-color: black;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      @media (max-width: 1280px) {
+        seat-selector {
+          width: 60%;
+        }
+        order-steps {
+          width: 40%;
+        }
+      }
+      @media (max-width: 1025px) {
+        seat-selector {
+          width: 70%;
+        }
+        order-steps {
+          width: 30%;
+        }
+      }
+
+      @media (max-width: 1028px) {
+        .main-container {
+          flex-direction: column;
+          align-items: center;
+        }
+        seat-selector {
+          width: 100%;
+        }
+        order-steps {
+          width: 100%;
+          border: none;
+          border-top: 5px rgb(228, 155, 15) dashed;
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <booking-info-banner></booking-info-banner>
+    </header>
+    <main class="main-container">
+      <seat-selector></seat-selector>
+      <order-steps></order-steps>
+    </main>
+    <footer>
+      <div class="footer">
+        <div class="footer-logo">
+          <img
+            src="pics/logo-urgoo.webp"
+            alt="Urgoo logo"
+            class="logo"
+            width="50"
+            height="55"
+          />
+        </div>
+        <div class="footer-text">
+          <p>© 2025 Urgoo Cinema. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <script type="module">
+      import { SeatSelector } from "./components/seatSelector.js";
+      import { OrderSteps } from "./components/orderSteps.js";
+      import { BookingInfoBanner } from "./components/bookingInfoBanner.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const bookingInfoBannerElement =
+          document.querySelector("booking-info-banner");
+        const seatSelectorElement = document.querySelector("seat-selector");
+        const orderStepsElement = document.querySelector("order-steps");
+        const queryParams = new URLSearchParams(window.location.search);
+
+        const movieTitle = queryParams.get("movie_title");
+        const movieId = queryParams.get("movie_id");
+        const moviePoster = queryParams.get("movie_poster");
+        const branchId = queryParams.get("branch_id");
+        const hallId = queryParams.get("hall_id");
+        const day = queryParams.get("day");
+        const hour = queryParams.get("hour");
+
+        if (bookingInfoBannerElement) {
+          bookingInfoBannerElement.setAttribute("movie_id", movieId);
+          bookingInfoBannerElement.setAttribute("movie_title", movieTitle);
+          bookingInfoBannerElement.setAttribute("img_url", moviePoster);
+          bookingInfoBannerElement.setAttribute("branch_id", branchId);
+          bookingInfoBannerElement.setAttribute("hall_id", hallId);
+          bookingInfoBannerElement.setAttribute("day", day);
+          bookingInfoBannerElement.setAttribute("hour", hour);
+        } else {
+          console.error("booking-info-banner элемент олдсонгүй!");
+        }
+
+        if (seatSelectorElement) {
+          if (movieTitle)
+            seatSelectorElement.setAttribute("movie_title", movieTitle);
+          if (movieId) seatSelectorElement.setAttribute("movie_id", movieId);
+          if (moviePoster)
+            seatSelectorElement.setAttribute("movie_poster", moviePoster);
+          if (branchId) seatSelectorElement.setAttribute("branch_id", branchId);
+          if (hallId) seatSelectorElement.setAttribute("hall_id", hallId);
+          if (day) seatSelectorElement.setAttribute("day", day);
+          if (hour) seatSelectorElement.setAttribute("hour", hour);
+        } else {
+          console.error("seat-selector элемент олдсонгүй!");
+        }
+
+        if (orderStepsElement && movieId && branchId && hallId && day && hour) {
+          const formattedDay = day.replace(/-/g, "");
+          const formattedHour = hour.replace(":", "");
+          const showtimeId = `${movieId}_${branchId}_${hallId}_${formattedDay}_${formattedHour}`;
+          orderStepsElement.setAttribute("showtime-id", showtimeId);
+          orderStepsElement.setAttribute("movie-poster", moviePoster);
+        }
+      });
+    </script>
+  </body>
+</html>

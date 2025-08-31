@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="./profile.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/x-icon" href="../pics/favicon-urgoo.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=play_circle" />
+</head>
+
+<body>
+    <custom-header page-name="profile-overview"></custom-header>
+    <main>
+        
+        <section class="menu">
+            <h1>Good afternoon User!!</h1>
+            <div class="menuButton active" data-component="AccountOverview">Account Overview</div>
+            <div class="menuButton" data-component="PersonalDetails">Personal Details</div>
+            <div class="menuButton" data-component="Reminders">Reminders</div>
+            <div class="menuButton" data-component="Tickets">My Tickets</div>
+        </section>
+        <section class="container">
+            <div class="componentWrapper">
+            </div>
+        </section>
+    </main>
+    <quick-book></quick-book>
+    <custom-footer></custom-footer>
+    <script src="./profile.js"></script>
+    <script src="../components/Footer.js"></script>
+    <script src="../components/Header.js"></script>
+    <script src="../components/Quickbook.js"></script>
+    <script src="../components/profile/accountOverview.js"></script>
+    <script src="../components/profile/personalDetails.js"></script>
+    <script src="../components/profile/reminders.js"></script>
+    <script src="../components/profile/tickets.js"></script>
+</body>
+
+</html>
