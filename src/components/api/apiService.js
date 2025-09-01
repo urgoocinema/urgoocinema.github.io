@@ -25,6 +25,7 @@ export const getBranchById = (branchId) => fetchData(`branches/${branchId}`);
 export const getBookingsByUserId = (userId) => fetchData(`bookings/user/${userId}`);
 export const getUpcoming = () => fetchData('upcoming');
 export const getUpcomingById = (upcomingId) => fetchData(`upcoming/${upcomingId}`);
+export const getNotification = (userId) => fetchData(`upcoming/notif/${userId}`);
 
 const postData = async (endpoint, data) => {
     try {
@@ -50,3 +51,4 @@ const postData = async (endpoint, data) => {
 export const login = (email, password) => postData('login', { email, password });
 export const register = (userDetails) => postData('register', userDetails);
 export const bookSeat = (bookingDetails) => postData('bookings', bookingDetails);
+export const postnotification = (user_id, movie_id) => postData('upcoming', { user_id, movie_id })

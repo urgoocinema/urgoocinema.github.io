@@ -1,5 +1,5 @@
 
-import { getUpcomingById } from "/src/components/api/apiService.js";
+import { getUpcomingById, postnotification } from "/src/components/api/apiService.js";
 class UpcomingMovie extends HTMLElement {
   constructor() {
     super();
@@ -242,6 +242,7 @@ class UpcomingMovie extends HTMLElement {
           } else {
             remindButton.classList.remove('glow-active');
           }
+          postnotification(this._movieId, window.localStorage.getItem('user_id'));
         });
       }
     } catch (error) {
