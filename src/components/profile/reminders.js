@@ -24,9 +24,15 @@ class Reminders extends HTMLElement {
 
 
       const notifications = await getNotification(userId);
-      const upcoming_data = await getUpcomingById(notifications[0].movie_id);
-      console.log(upcoming_data);
-      console.log(notifications);
+      const upcoming_data = [];
+      for (let i = 0; i < notifications.length; i++) {
+        console.log(i + "th movie " + notifications[i].movie_id);
+        let upcoming_element = await getUpcomingById(notifications[i].movie_id);
+        console.log(upcoming_element);
+        upcoming_data.push(upcoming_element);
+      }
+      console.log("upcoming data " + upcoming_data);
+      console.log("movie ids " + notifications);
       if (!notifications || notifications.length === 0) {
         this.shadowRoot.innerHTML = `
           <style>
@@ -97,19 +103,26 @@ class Reminders extends HTMLElement {
           <h1>Your Reminders:</h1>
           <div class="upcomingMovieContainer">
       `;
+      if (movies.length === 0) {
+        this.shadowRoot.innerHTML += `no reminders yet.`
+        this.shadowRoot.innerHTML += `</div></div>`;
+        return;
+
+      }
       movies.forEach((movie) => {
+        console.log("movie " + movie[0]);
         this.shadowRoot.innerHTML += `
 
 <div class="movieCard">
-  <img src="${movie.poster_url}" alt="${movie.title} poster" />
+  <img src="${movie[0].poster_url}" alt="${movie[0].title} poster" />
   <div class="movieDetails">
-    <h2>${movie.title}</h2>
-    <p><strong>Description:</strong> ${movie.description}</p>
-    <p><strong>Cast:</strong> ${movie.cast_names.join(', ')}</p>
-    <p><strong>Duration:</strong> ${movie.duration} minutes</p>
-    <p><strong>Genres:</strong> ${movie.genres.join(', ')}</p>
-    <p><strong>Release Date:</strong> ${new Date(movie.releasedate).toLocaleDateString()}</p>
-    <p><strong>Age Rating:</strong> ${movie.age_rating}</p>
+    <h2>${movie[0].title}</h2>
+    <p><strong>Description:</strong> ${movie[0].description}</p>
+    <p><strong>Cast:</strong> ${movie[0].cast_names.join(', ')}</p>
+    <p><strong>Duration:</strong> ${movie[0].duration} minutes</p>
+    <p><strong>Genres:</strong> ${movie[0].genres.join(', ')}</p>
+    <p><strong>Release Date:</strong> ${new Date(movie[0].releasedate).toLocaleDateString()}</p>
+    <p><strong>Age Rating:</strong> ${movie[0].age_rating}</p>
   </div>
 </div>
 `
@@ -131,10 +144,7 @@ class Reminders extends HTMLElement {
             color: red;
           }
         </style>
-        <div class="reminderWrapper">
-          <h1>Your Reminders:</h1>
-          <p>Error loading reminders: ${error.message}</p>
-        </div>
+
       `;
     }
   }

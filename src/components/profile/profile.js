@@ -1,3 +1,4 @@
+import { getUserById } from "/src/components/api/apiService.js";
 class ProfileContainer extends HTMLElement {
     constructor() {
         super();
@@ -19,21 +20,18 @@ class ProfileContainer extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'user-id' && oldValue !== newValue) {
             this.userId = newValue;
-            if (this.isConnected && this.userId && this.userId !== 'null') {
-                this.render();
-            } else {
-                window.location.hash = '/login'; // Redirect to login if user-id becomes invalid
-            }
+            // if (this.isConnected && this.userId && this.userId !== 'null') {
+            //     this.render();
+            // } else {
+            //     window.location.hash = '/login';
+            // }
         }
     }
 
     async render() {
         try {
-            const response = await fetch("/src/data/user/user-info.json");
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const allUsersData = await response.json();
+            const response = await getUserById(this.userId);
+            const allUsersData = response
             const userData = allUsersData.find((user) => user.id == this.userId);
 
             if (!userData) {

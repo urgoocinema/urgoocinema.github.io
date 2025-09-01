@@ -26,6 +26,8 @@ export const getBookingsByUserId = (userId) => fetchData(`bookings/user/${userId
 export const getUpcoming = () => fetchData('upcoming');
 export const getUpcomingById = (upcomingId) => fetchData(`upcoming/${upcomingId}`);
 export const getNotification = (userId) => fetchData(`upcoming/notif/${userId}`);
+export const getUserById = (userId) => fetchData(`users/${userId}`);
+
 
 const postData = async (endpoint, data) => {
     try {

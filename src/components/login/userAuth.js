@@ -2,122 +2,123 @@ import { login, register } from "/src/components/api/apiService.js";
 import { renderProfilePage } from "/main.js"
 
 class UserAuth extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+
+  _toggleForm(formType) {
+    const loginForm = this.shadowRoot.getElementById('login-form');
+    const registerForm = this.shadowRoot.getElementById('register-form');
+    loginForm.classList.toggle('hidden', formType !== 'login');
+    registerForm.classList.toggle('hidden', formType !== 'register');
+  }
+
+
+  _showMessage(type, text) {
+    const messageContainer = this.shadowRoot.getElementById('message-container');
+    messageContainer.textContent = text;
+    messageContainer.className = `message ${type}`;
+    messageContainer.style.display = 'block';
+  }
+
+  _showError(elementId, show) {
+    const element = this.shadowRoot.getElementById(elementId);
+    if (element) {
+      element.style.display = show ? 'block' : 'none';
+    }
+  }
+
+  _isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  _isValidMobile(mobile) {
+    return /^(80|83|85|86|88|89|90|91|93|94|95|96|97|98|99)\d{6}$/.test(mobile);
+  }
+  _sanitizeInput(input) {
+    return input.replace(/[;'"\\%--]/g, '').trim().substring(0, 100);
+  }
+
+
+  async _handleLogin(e) {
+    e.preventDefault();
+    this._showMessage('info', 'Logging in...');
+    const email = this._sanitizeInput(this.shadowRoot.getElementById('login-email').value.trim());
+    const password = this._sanitizeInput(this.shadowRoot.getElementById('login-password').value);
+
+    let isValid = true;
+    if (!this._isValidEmail(email)) {
+      this._showError('login-email-error', true);
+      isValid = false;
+    } else {
+      this._showError('login-email-error', false);
     }
 
-    connectedCallback() {
-        this.render();
+    if (password.length < 6) {
+      this._showError('login-password-error', true);
+      isValid = false;
+    } else {
+      this._showError('login-password-error', false);
     }
 
+    if (!isValid) return;
 
-    _toggleForm(formType) {
-        const loginForm = this.shadowRoot.getElementById('login-form');
-        const registerForm = this.shadowRoot.getElementById('register-form');
-        loginForm.classList.toggle('hidden', formType !== 'login');
-        registerForm.classList.toggle('hidden', formType !== 'register');
+    try {
+      const result = await login(email, password);
+      if (result) {
+        this._showMessage('success', `Login successful! Welcome, ${result.user.firstName}`);
+        localStorage.setItem('user_id', result.user.id);
+        console.log(localStorage.getItem('user_id'));
+        renderProfilePage();
+      } else {
+        this._showMessage('error', 'Login failed. Please check your credentials.');
+      }
+    } catch (err) {
+      this._showMessage('error', 'An unexpected error occurred. Please try again.');
     }
+  }
 
 
-    _showMessage(type, text) {
-        const messageContainer = this.shadowRoot.getElementById('message-container');
-        messageContainer.textContent = text;
-        messageContainer.className = `message ${type}`;
-        messageContainer.style.display = 'block';
+  async _handleRegister(e) {
+    e.preventDefault();
+    this._showMessage('info', 'Registering...');
+    const firstName = this._sanitizeInput(this.shadowRoot.getElementById('register-firstname').value.trim());
+    const lastName = this._sanitizeInput(this.shadowRoot.getElementById('register-lastname').value.trim());
+    const mobile = this._sanitizeInput(this.shadowRoot.getElementById('register-mobile').value.trim());
+    const email = this._sanitizeInput(this.shadowRoot.getElementById('register-email').value.trim());
+    const password = this._sanitizeInput(this.shadowRoot.getElementById('register-password').value);
+
+    let isValid = true;
+    if (!firstName) { this._showError('register-firstname-error', true); isValid = false; } else { this._showError('register-firstname-error', false); }
+    if (!lastName) { this._showError('register-lastname-error', true); isValid = false; } else { this._showError('register-lastname-error', false); }
+    if (!this._isValidMobile(mobile)) { this._showError('register-mobile-error', true); isValid = false; } else { this._showError('register-mobile-error', false); }
+    if (!this._isValidEmail(email)) { this._showError('register-email-error', true); isValid = false; } else { this._showError('register-email-error', false); }
+    if (password.length < 6) { this._showError('register-password-error', true); isValid = false; } else { this._showError('register-password-error', false); }
+    if (!isValid) return;
+
+    try {
+      const userDetails = { firstName, lastName, mobile, email, password };
+      const result = await register(userDetails);
+      if (result) {
+        this._showMessage('success', 'Registration successful! You can now log in.');
+        this._toggleForm('login');
+      } else {
+        this._showMessage('error', 'Registration failed. Please try again.');
+      }
+    } catch (err) {
+      this._showMessage('error', 'An unexpected error occurred. Please try again.');
     }
-
-    _showError(elementId, show) {
-        const element = this.shadowRoot.getElementById(elementId);
-        if (element) {
-            element.style.display = show ? 'block' : 'none';
-        }
-    }
-
-    _isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    _isValidMobile(mobile) {
-        return /^(80|83|85|86|88|89|90|91|93|94|95|96|97|98|99)\d{6}$/.test(mobile);
-    }
-    _sanitizeInput(input) {
-        return input.replace(/[;'"\\%--]/g, '').trim().substring(0, 100);
-    }
+  }
 
 
-    async _handleLogin(e) {
-        e.preventDefault();
-        this._showMessage('info', 'Logging in...');
-        const email = this._sanitizeInput(this.shadowRoot.getElementById('login-email').value.trim());
-        const password = this._sanitizeInput(this.shadowRoot.getElementById('login-password').value);
-
-        let isValid = true;
-        if (!this._isValidEmail(email)) {
-            this._showError('login-email-error', true);
-            isValid = false;
-        } else {
-            this._showError('login-email-error', false);
-        }
-
-        if (password.length < 6) {
-            this._showError('login-password-error', true);
-            isValid = false;
-        } else {
-            this._showError('login-password-error', false);
-        }
-
-        if (!isValid) return;
-
-        try {
-            const result = await login(email, password);
-            if (result) {
-                this._showMessage('success', `Login successful! Welcome, ${result.user.firstName}`);
-                localStorage.setItem('user_id', result.user.id);
-                renderProfilePage();
-            } else {
-                this._showMessage('error', 'Login failed. Please check your credentials.');
-            }
-        } catch (err) {
-            this._showMessage('error', 'An unexpected error occurred. Please try again.');
-        }
-    }
-
-
-    async _handleRegister(e) {
-        e.preventDefault();
-        this._showMessage('info', 'Registering...');
-        const firstName = this._sanitizeInput(this.shadowRoot.getElementById('register-firstname').value.trim());
-        const lastName = this._sanitizeInput(this.shadowRoot.getElementById('register-lastname').value.trim());
-        const mobile = this._sanitizeInput(this.shadowRoot.getElementById('register-mobile').value.trim());
-        const email = this._sanitizeInput(this.shadowRoot.getElementById('register-email').value.trim());
-        const password = this._sanitizeInput(this.shadowRoot.getElementById('register-password').value);
-
-        let isValid = true;
-        if (!firstName) { this._showError('register-firstname-error', true); isValid = false; } else { this._showError('register-firstname-error', false); }
-        if (!lastName) { this._showError('register-lastname-error', true); isValid = false; } else { this._showError('register-lastname-error', false); }
-        if (!this._isValidMobile(mobile)) { this._showError('register-mobile-error', true); isValid = false; } else { this._showError('register-mobile-error', false); }
-        if (!this._isValidEmail(email)) { this._showError('register-email-error', true); isValid = false; } else { this._showError('register-email-error', false); }
-        if (password.length < 6) { this._showError('register-password-error', true); isValid = false; } else { this._showError('register-password-error', false); }
-        if (!isValid) return;
-
-        try {
-            const userDetails = { firstName, lastName, mobile, email, password };
-            const result = await register(userDetails);
-            if (result) {
-                this._showMessage('success', 'Registration successful! You can now log in.');
-                this._toggleForm('login');
-            } else {
-                this._showMessage('error', 'Registration failed. Please try again.');
-            }
-        } catch (err) {
-            this._showMessage('error', 'An unexpected error occurred. Please try again.');
-        }
-    }
-
-
-    render() {
-        this.shadowRoot.innerHTML = `
+  render() {
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
           display: block;
@@ -281,10 +282,10 @@ class UserAuth extends HTMLElement {
       </div>
     `;
 
-        this.shadowRoot.getElementById('login').addEventListener('submit', this._handleLogin.bind(this));
-        this.shadowRoot.getElementById('register').addEventListener('submit', this._handleRegister.bind(this));
-        this.shadowRoot.getElementById('login-toggle-link').addEventListener('click', () => this._toggleForm('login'));
-        this.shadowRoot.getElementById('register-toggle-link').addEventListener('click', () => this._toggleForm('register'));
-    }
+    this.shadowRoot.getElementById('login').addEventListener('submit', this._handleLogin.bind(this));
+    this.shadowRoot.getElementById('register').addEventListener('submit', this._handleRegister.bind(this));
+    this.shadowRoot.getElementById('login-toggle-link').addEventListener('click', () => this._toggleForm('login'));
+    this.shadowRoot.getElementById('register-toggle-link').addEventListener('click', () => this._toggleForm('register'));
+  }
 }
 customElements.define("user-auth", UserAuth);

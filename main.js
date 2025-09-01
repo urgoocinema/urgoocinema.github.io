@@ -74,7 +74,7 @@ export const renderServicePage = async () => {
 
 export const renderProfilePage = async () => {
     const userId = window.localStorage.getItem("user_id");
-    if (!userId || userId === 'null') {
+    if (!userId || userId === 'null' || userId.trim() === '') {
         window.location.hash = '/login';
         return;
     }

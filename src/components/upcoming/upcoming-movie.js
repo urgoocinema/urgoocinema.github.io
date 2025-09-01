@@ -242,7 +242,7 @@ class UpcomingMovie extends HTMLElement {
           } else {
             remindButton.classList.remove('glow-active');
           }
-          postnotification(this._movieId, window.localStorage.getItem('user_id'));
+          postnotification(window.localStorage.getItem('user_id'), this._movieId);
         });
       }
     } catch (error) {

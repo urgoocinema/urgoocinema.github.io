@@ -141,8 +141,7 @@ export class MovieCard extends HTMLElement {
   }
 
   renderShowtimes(day) {
-    console.log('Showtimes:', this.showtimes);
-    console.log('Branches:', this.branches);
+
     const today = new Date();
     let currentDay;
 
@@ -233,11 +232,9 @@ export class MovieCard extends HTMLElement {
   }
 
   _dispatchButtonEvent() {
-    console.log("Dispatching button event listener");
     this.container
       .querySelector(".showtime-details")
       .addEventListener("click", (e) => {
-        console.log("Showtime details clicked");
         const btn = e.target.closest("a[data-day]");
         if (!btn) return;
 
