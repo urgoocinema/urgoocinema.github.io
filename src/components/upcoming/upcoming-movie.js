@@ -1,3 +1,5 @@
+import { getUpcoming } from "../api/apiService";
+import { getUpcomingById } from "/src/components/apiService.js";;
 class UpcomingMovie extends HTMLElement {
   constructor() {
     super();
@@ -33,14 +35,14 @@ class UpcomingMovie extends HTMLElement {
 
     this.shadowRoot.innerHTML = `<p>Loading movie details for ID: ${movieId}...</p>`;
     try {
-      const response = await fetch("/src/data/upcoming/upcoming.json");
+      const response = await getUpcomingById(movieId);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const allMoviesData = await response.json();
-      const movieData = allMoviesData.find((movie) => movie.id === movieId);
+      const movieData = await response.json();
+
       const getAgeRatingClass = (rating) => {
         if (!rating) return '';
         const upperRating = rating.toUpperCase();
