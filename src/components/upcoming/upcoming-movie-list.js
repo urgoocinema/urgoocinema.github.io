@@ -1,4 +1,4 @@
-import { getUpcoming } from '/src/components/api/apiService.js';
+import { getUpcoming } from "/src/components/api/apiService.js";
 class UpcomingMovieList extends HTMLElement {
     constructor() {
         super();
@@ -10,12 +10,11 @@ class UpcomingMovieList extends HTMLElement {
     async renderAllMovies() {
         try {
             const response = await getUpcoming();
-            console.log(response);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const allMoviesData = await response.json();
+
+
+            const allMoviesData = response;
             const movieCount = allMoviesData.length;
+
             console.log("number of upcoming movies: ", movieCount);
             var htmlString = `
                 <style>

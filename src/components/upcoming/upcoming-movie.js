@@ -1,5 +1,5 @@
-import { getUpcoming } from "../api/apiService";
-import { getUpcomingById } from "/src/components/apiService.js";;
+
+import { getUpcomingById } from "/src/components/api/apiService.js";
 class UpcomingMovie extends HTMLElement {
   constructor() {
     super();
@@ -36,12 +36,9 @@ class UpcomingMovie extends HTMLElement {
     this.shadowRoot.innerHTML = `<p>Loading movie details for ID: ${movieId}...</p>`;
     try {
       const response = await getUpcomingById(movieId);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const movieData = await response.json();
+      const movieData = Array.isArray(response) && response.length > 0 ? response[0] : null;
+      console.log("Movie data:", movieData);
+      console.log(movieData);
 
       const getAgeRatingClass = (rating) => {
         if (!rating) return '';
@@ -197,26 +194,26 @@ class UpcomingMovie extends HTMLElement {
               }
                     </style>
                     <div class="upcoming-movie-container">
-                        <img src="${movieData.imageSrc}" alt="${movieData.altText}" class="poster"/>
+                        <img src="${movieData.poster_url}" alt="${movieData.altText}" class="poster"/>
                         <div class="information">
-                            <h1>${movieData.name}</h1>
+                            <h1>${movieData.title}</h1>
                             <p>${movieData.description}</p>
                             <div class="detail-container">
                                 <div class="detail-row">
                                     <div class="detail-gray">Гол дүрүүдэд</div>
-                                    <div class="detail-white">${movieData.cast}</div>
+                                    <div class="detail-white">${movieData.cast_names}</div>
                                 </div>
                                 <div class="detail-row">
                                     <div class="detail-gray">Үргэлжлэх хугацаа</div>
-                                    <div class="detail-white">${movieData.runTime}</div>
+                                    <div class="detail-white">${movieData.duration}</div>
                                 </div>
                                 <div class="detail-row">
                                     <div class="detail-gray">Гарах огноо</div>
-                                    <div class="detail-white">${movieData.releaseDate}</div>
+                                    <div class="detail-white">${movieData.releasedate}</div>
                                 </div>
                                 <div class="detail-row">
                                     <div class="detail-gray">Насны ангилал</div>
-                                    <div class="${getAgeRatingClass(movieData.ageRating)}">${movieData.ageRating}</div>
+                                    <div class="${getAgeRatingClass(movieData.age_rating)}">${movieData.age_rating}</div>
                                 </div>
                             </div>
                             <button id = "remindButton" class="${this._isReminderSet ? 'glow-active' : ''}">

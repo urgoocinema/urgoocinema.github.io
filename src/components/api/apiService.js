@@ -23,7 +23,7 @@ export const getShowtimeById = (showtimeId) => fetchData(`showtimes/${showtimeId
 export const getBranches = () => fetchData('branches');
 export const getBranchById = (branchId) => fetchData(`branches/${branchId}`);
 export const getBookingsByUserId = (userId) => fetchData(`bookings/user/${userId}`);
-export const getUpcoming = () => fetchData('upcoming/');
+export const getUpcoming = () => fetchData('upcoming');
 export const getUpcomingById = (upcomingId) => fetchData(`upcoming/${upcomingId}`);
 
 const postData = async (endpoint, data) => {
