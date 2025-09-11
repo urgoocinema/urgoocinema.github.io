@@ -40,8 +40,9 @@ class ProfileContainer extends HTMLElement {
                 window.location.hash = '/login';
                 return;
             }
+            console.log(userData);
 
-            const firstName = userData.firstName || 'User';
+            const firstName = userData.first_name || 'User';
 
             this.shadowRoot.innerHTML = `
                 <style>
