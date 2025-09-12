@@ -88,6 +88,7 @@ export class MovieList extends HTMLElement {
       movieCard.startDate = movie.start_date || "";
       movieCard.endDate = movie.end_date || "";
       movieCard.showtimes = normalizedShowtimes;
+      console.log(movieCard.showtimes);
       for (let i = 0; i < this.allBranches.length; i++) {
         const branch = this.allBranches[i];
         movieCard.branches.push(branch);

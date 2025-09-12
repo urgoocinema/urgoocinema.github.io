@@ -20,11 +20,6 @@ class ProfileContainer extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'user-id' && oldValue !== newValue) {
             this.userId = newValue;
-            // if (this.isConnected && this.userId && this.userId !== 'null') {
-            //     this.render();
-            // } else {
-            //     window.location.hash = '/login';
-            // }
         }
     }
 
@@ -40,8 +35,6 @@ class ProfileContainer extends HTMLElement {
                 window.location.hash = '/login';
                 return;
             }
-            console.log(userData);
-
             const firstName = userData.first_name || 'User';
 
             this.shadowRoot.innerHTML = `

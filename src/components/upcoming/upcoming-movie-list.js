@@ -15,7 +15,6 @@ class UpcomingMovieList extends HTMLElement {
             const allMoviesData = response;
             const movieCount = allMoviesData.length;
 
-            console.log("number of upcoming movies: ", movieCount);
             var htmlString = `
                 <style>
                     div {

@@ -54,3 +54,28 @@ export const login = (email, password) => postData('login', { email, password })
 export const register = (userDetails) => postData('register', userDetails);
 export const bookSeat = (bookingDetails) => postData('bookings', bookingDetails);
 export const postnotification = (user_id, movie_id) => postData('upcoming', { user_id, movie_id })
+
+const putData = async (endpoint, data) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            console.error(`API error for ${endpoint}: ${responseData.message || response.statusText}`);
+            throw new Error(responseData.message || 'Server error');
+        }
+
+        return responseData;
+    } catch (error) {
+        console.error(`Could not put data to ${endpoint}:`, error);
+        return null;
+    }
+};
+export const updateUser = (userDetails) => putData(`users/update`, userDetails);
